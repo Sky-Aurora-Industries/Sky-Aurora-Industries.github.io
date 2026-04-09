@@ -1,51 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SKY-AURORA | PORTAL</title>
+    <title>SKY-AURORA | SECURE_PORTAL</title>
     <style>
-        body { background: #000; color: #0f0; font-family: 'Courier New', monospace; padding: 20px; }
-        .box { border: 1px solid #0f0; padding: 15px; margin-bottom: 20px; background: rgba(0, 20, 0, 0.5); }
-        h2 { border-bottom: 1px solid #0f0; padding-bottom: 5px; color: #fff; }
-        .status { color: #ff0000; font-weight: bold; }
-        .acquired { color: #00ff00; }
-        .header-code { color: #555; font-size: 0.8em; margin-bottom: 10px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #000; color: #0f0; font-family: 'Courier New', monospace; overflow-x: hidden; }
+        #matrix { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.4; }
+        .container { padding: 20px; max-width: 800px; margin: auto; position: relative; z-index: 1; }
+        .terminal-box { border: 2px solid #0f0; padding: 20px; background: rgba(0, 15, 0, 0.85); box-shadow: 0 0 20px rgba(0, 255, 0, 0.3); margin-top: 50px; }
+        .header { border-bottom: 1px solid #0f0; padding-bottom: 10px; margin-bottom: 20px; }
+        h1 { font-size: 1.4em; text-shadow: 0 0 10px #0f0; letter-spacing: 2px; }
+        .info { margin: 15px 0; font-size: 0.9em; line-height: 1.6; }
+        .highlight { color: #fff; text-decoration: underline; }
+        .btn-portal { display: inline-block; margin-top: 20px; padding: 10px 20px; border: 1px solid #0f0; color: #0f0; text-decoration: none; font-weight: bold; transition: 0.3s; }
+        .btn-portal:hover { background: #0f0; color: #000; }
     </style>
 </head>
 <body oncontextmenu="return false;">
-    <div class="header-code">const http = require('http'); // SYSTEM_SECURED_BY_CIPHER0X</div>
-    
-    <div class="box">
-        <h2>CEO: CIPHER0X</h2>
-        <p>> RANK: ALPHA GHOST</p>
-        <p>> SPECIALTY: CROSS-BORDER DECRYPTION</p>
-        <p>> STATUS: <span class="status">UNTRACEABLE</span></p>
-        <i>"Jejak digital adalah kebohongan yang saya ciptakan..."</i>
+    <canvas id="matrix"></canvas>
+    <div class="container">
+        <div class="terminal-box">
+            <div class="header">
+                <h1>[ WELCOME TO BASE_HACKER ]</h1>
+                <p style="font-size: 0.7em; color: #888;">CORE_SYSTEM_V.2.06 / CEO: CIPHER0X</p>
+            </div>
+            <div class="info">
+                <p>> SYSTEM STATUS: <span style="color: cyan;">ENCRYPTED</span></p>
+                <p>> LOCATION: <span style="color: yellow;">UNTRACEABLE</span></p>
+                <p>> GREETING: Selamat datang di pusat kendali <span class="highlight">SKY-AURORA</span>. Seluruh aliran data di jaringan ini berada di bawah pengawasan kami.</p>
+            </div>
+            <a href="login.html" class="btn-portal">ACCESS CLIENT LOGIN</a>
+        </div>
     </div>
-
-    <div class="box">
-        <h2>SHADOW_ARCHIVES</h2>
-        <p>[!] OPERATION: THAI_SILENCE_2025</p>
-        <p>> TARGET: Government Data Centers (Thailand)</p>
-        <p>> RESULT: <span class="acquired">FULL_ACCESS_ACQUIRED</span></p>
-    </div>
-
-    <div class="box">
-        <h2>NEURAL_NETWORK_MONITOR</h2>
-        <p>> THAI_GOV_NODE: CONNECTED [STABLE]</p>
-        <p>> PENTAGON_GATE_SCAN: 44% COMPLETE</p>
-    </div>
-
     <script>
-        // Anti-Hacker Security
-        document.onkeydown = function(e) {
-            if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0))) {
-                alert("Sky-Aurora Security: Access Denied!");
-                return false;
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const letters = "0101010101010101ABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%^&*";
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(1);
+        function draw() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#0f0";
+            ctx.font = fontSize + "px monospace";
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters.charAt(Math.floor(Math.random() * letters.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
             }
         }
+        setInterval(draw, 35);
     </script>
 </body>
 </html>
-
