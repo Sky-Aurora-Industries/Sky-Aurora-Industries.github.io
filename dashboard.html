@@ -15,7 +15,7 @@
 
     <aside class="sidebar w-64 flex flex-col p-6">
         <div class="mb-10 flex items-center gap-3">
-            <i class="fas fa-microchip text-2xl text-blue-500"></i>
+            <i class="fas fa-shield-alt text-2xl text-blue-500"></i>
             <h1 class="text-xl font-black tracking-widest uppercase">SKY-AURORA</h1>
         </div>
 
@@ -31,25 +31,21 @@
             </a>
         </nav>
 
-        <button id="btn-logout" class="mt-auto flex items-center gap-4 p-4 text-red-500 font-bold hover:bg-red-500/10 rounded-xl">
+        <button id="logout" class="mt-auto flex items-center gap-4 p-4 text-red-500 font-bold hover:bg-red-500/10 rounded-xl">
             <i class="fas fa-power-off"></i> LOGOUT
         </button>
     </aside>
 
-    <main class="flex-1 p-10 overflow-y-auto">
-        <div class="max-w-4xl">
-            <h2 id="user-display" class="text-3xl font-bold mb-2 uppercase text-blue-400 font-mono">Loading...</h2>
-            <p class="text-slate-500 mb-10 text-xs tracking-widest uppercase">Access Level: Personnel</p>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl border-l-4 border-l-blue-600">
-                    <p class="text-[10px] text-blue-500 font-bold uppercase mb-2">Saldo Dompet Digital</p>
-                    <p class="text-4xl font-mono">Rp 0,00</p>
-                </div>
-                <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl border-l-4 border-l-slate-600">
-                    <p class="text-[10px] text-slate-500 font-bold uppercase mb-2">Notifikasi Sistem</p>
-                    <p class="text-sm text-slate-400">Selamat datang kembali di pusat kendali Sky-Aurora.</p>
-                </div>
+    <main class="flex-1 p-10">
+        <h2 id="user" class="text-3xl font-bold mb-6 text-blue-400 font-mono tracking-tighter uppercase">Personnel: Loading...</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl border-l-4 border-l-blue-600 shadow-xl">
+                <p class="text-[10px] text-blue-500 font-bold uppercase mb-2 tracking-widest">Saldo Aktif</p>
+                <p class="text-4xl font-mono">Rp 0,00</p>
+            </div>
+            <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl border-l-4 border-l-slate-600 shadow-xl">
+                <p class="text-[10px] text-slate-500 font-bold uppercase mb-2 tracking-widest">Status Sistem</p>
+                <p class="text-sm text-slate-400 italic">"Security protocol active. Your session is encrypted."</p>
             </div>
         </div>
     </main>
@@ -72,16 +68,15 @@
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                document.getElementById('user-display').innerText = user.email.split('@')[0].toUpperCase();
+                document.getElementById('user').innerText = "Personnel: " + user.email.split('@')[0];
             } else {
                 window.location.href = "login.html";
             }
         });
 
-        document.getElementById('btn-logout').onclick = () => {
+        document.getElementById('logout').onclick = () => {
             signOut(auth).then(() => { window.location.href = "login.html"; });
         };
     </script>
 </body>
 </html>
-
