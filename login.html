@@ -2,33 +2,24 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sky-Aurora | Access</title>
+    <title>Sky-Aurora | Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { background: #020617; color: white; font-family: sans-serif; }
-        .glass { background: rgba(15, 23, 42, 0.9); border: 1px solid #1e40af; border-radius: 20px; padding: 40px; }
-    </style>
 </head>
-<body class="h-screen flex items-center justify-center p-6">
-    <div class="glass w-full max-w-sm text-center shadow-2xl">
-        <h1 class="text-2xl font-black tracking-tighter mb-6 uppercase">Sky-Aurora Portal</h1>
-        
-        <div class="space-y-4">
-            <input type="email" id="email" class="w-full bg-slate-900 border border-slate-700 rounded-lg py-3 px-4 outline-none focus:border-blue-500" placeholder="Email">
-            <input type="password" id="password" class="w-full bg-slate-900 border border-slate-700 rounded-lg py-3 px-4 outline-none focus:border-blue-500" placeholder="Password">
-            
-            <button id="btn-login" class="w-full bg-blue-600 font-bold py-3 rounded-lg hover:bg-blue-500">LOGIN</button>
-            <button id="btn-register" class="w-full border border-blue-600 text-blue-400 font-bold py-3 rounded-lg mt-2">REGISTER</button>
-        </div>
-        <p id="msg" class="mt-4 text-xs font-bold"></p>
+<body class="bg-slate-950 flex justify-center items-center h-screen text-white">
+    <div class="bg-slate-900 p-8 rounded-2xl w-full max-w-sm border border-blue-900">
+        <h1 class="text-center font-bold text-xl mb-6 uppercase tracking-widest">Sky-Aurora Login</h1>
+        <input type="email" id="email" class="w-full p-3 mb-4 bg-slate-800 rounded border border-slate-700" placeholder="Email">
+        <input type="password" id="password" class="w-full p-3 mb-4 bg-slate-800 rounded border border-slate-700" placeholder="Password">
+        <button id="login" class="w-full bg-blue-600 p-3 rounded font-bold mb-2">LOGIN</button>
+        <button id="register" class="w-full bg-slate-800 p-3 rounded font-bold">REGISTER</button>
+        <p id="error" class="mt-4 text-xs text-red-500 text-center"></p>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-        // KUNCI ASLI SKY-AURORA (SUDAH DIPERBAIKI)
+        // Kunci yang sudah diperbaiki (Perhatikan huruf B besar)
         const firebaseConfig = {
             apiKey: "AIzaSyB0d3Lnob3ewk9JgjRhzhqB1hX5WUBtBxE",
             authDomain: "sky-aurora-industries.firebaseapp.com",
@@ -40,27 +31,20 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-        const msg = document.getElementById('msg');
+        const errorTag = document.getElementById('error');
 
-        document.getElementById('btn-register').onclick = async () => {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+        document.getElementById('register').onclick = async () => {
             try {
-                await createUserWithEmailAndPassword(auth, email, password);
-                msg.innerText = "REGISTRASI SUKSES!";
-                msg.style.color = "#4ade80";
-            } catch (e) { msg.innerText = e.message; msg.style.color = "#f87171"; }
+                await createUserWithEmailAndPassword(auth, document.getElementById('email').value, document.getElementById('password').value);
+                errorTag.innerText = "Akun berhasil dibuat!"; errorTag.style.color = "green";
+            } catch (e) { errorTag.innerText = e.message; }
         };
 
-        document.getElementById('btn-login').onclick = async () => {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+        document.getElementById('login').onclick = async () => {
             try {
-                await signInWithEmailAndPassword(auth, email, password);
-                msg.innerText = "ACCESS GRANTED!";
-                msg.style.color = "#60a5fa";
-                setTimeout(() => { window.location.href = "index.html"; }, 1000);
-            } catch (e) { msg.innerText = e.message; msg.style.color = "#f87171"; }
+                await signInWithEmailAndPassword(auth, document.getElementById('email').value, document.getElementById('password').value);
+                window.location.href = "index.html";
+            } catch (e) { errorTag.innerText = e.message; }
         };
     </script>
 </body>
