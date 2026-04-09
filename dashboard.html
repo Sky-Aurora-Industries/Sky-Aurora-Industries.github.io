@@ -1,4 +1,4 @@
-            <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -7,76 +7,159 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { background: #020617; color: white; font-family: 'Inter', sans-serif; }
-        .sidebar { background: #0f172a; transition: transform 0.3s ease; transform: translateX(-100%); width: 280px; position: fixed; height: 100%; z-index: 50; }
+        body { background: #020617; color: white; font-family: 'Inter', sans-serif; margin:0; padding:0; }
+        .sidebar { background: #0f172a; transition: transform 0.3s ease; transform: translateX(-100%); width: 280px; position: fixed; height: 100%; z-index: 100; top:0; left:0; border-right: 1px solid #1e293b; }
         .sidebar.active { transform: translateX(0); }
-        .card { background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; }
-        .content-section { display: none; }
+        .overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:90; }
+        .overlay.active { display:block; }
+        .card { background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 20px; transition: 0.3s; }
+        .card:hover { border-color: #3b82f6; }
+        .content-section { display: none; padding: 20px; }
         .content-section.active { display: block; }
+        .btn-buy { background: #2563eb; padding: 8px 16px; border-radius: 8px; font-weight: bold; text-transform: uppercase; font-size: 12px; }
     </style>
 </head>
 <body>
 
-    <header class="bg-[#0f172a] p-4 flex items-center justify-between border-b border-slate-800">
+    <div class="overlay" id="overlay"></div>
+
+    <header class="bg-[#0f172a] p-4 flex items-center justify-between border-b border-slate-800 sticky top-0 z-40">
         <div class="flex items-center gap-4">
             <i class="fas fa-bars text-2xl text-blue-500 cursor-pointer" id="open-sidebar"></i>
-            <h1 class="text-xl font-black italic uppercase text-blue-500">SKY-AURORA</h1>
+            <h1 class="text-xl font-black italic uppercase text-blue-500 tracking-tighter">SKY-AURORA</h1>
         </div>
     </header>
 
     <aside class="sidebar" id="sidebar">
         <div class="p-6">
-            <i class="fas fa-times text-white cursor-pointer mb-6" id="close-sidebar"></i>
-            <div class="mb-10 p-4 rounded-xl bg-slate-800 border border-slate-700">
-                <p class="text-[10px] text-slate-500 font-bold uppercase">HELLO</p>
-                <p class="text-lg font-black uppercase text-white">CLIENT</p>
+            <div class="flex justify-between items-center mb-8">
+                <span class="text-blue-500 font-bold uppercase italic">Menu Portal</span>
+                <i class="fas fa-times text-slate-500 cursor-pointer text-xl" id="close-sidebar"></i>
             </div>
-            <nav class="space-y-4">
-                <a href="#" class="block p-4 rounded-xl bg-blue-600/20 text-blue-400 font-bold" onclick="showSection('home')">HOME</a>
-                <a href="#" class="block p-4 rounded-xl hover:bg-slate-800" onclick="showSection('shop')">BELANJA</a>
-                <a href="#" class="block p-4 rounded-xl hover:bg-slate-800" onclick="showSection('wallet')">DOMPET</a>
-                <a href="#" class="block p-4 rounded-xl hover:bg-slate-800" onclick="showSection('help')">SETTINGS</a>
+            
+            <div class="mb-8 p-4 rounded-xl bg-slate-800 border border-slate-700 flex items-center gap-3">
+                <i class="fas fa-user-circle text-3xl text-blue-500"></i>
+                <div>
+                    <p class="text-[10px] text-slate-500 font-bold uppercase">Personnel</p>
+                    <p class="text-md font-black text-white uppercase italic">JUANDI</p>
+                </div>
+            </div>
+
+            <nav class="space-y-2">
+                <button class="w-full text-left flex items-center gap-4 p-4 rounded-xl bg-blue-600/20 text-blue-400 font-bold border border-blue-600/30" onclick="showSection('home')">
+                    <i class="fas fa-home"></i> HOME
+                </button>
+                <button class="w-full text-left flex items-center gap-4 p-4 rounded-xl hover:bg-slate-800 text-slate-300" onclick="showSection('shop')">
+                    <i class="fas fa-shopping-cart"></i> BELANJA
+                </button>
+                <button class="w-full text-left flex items-center gap-4 p-4 rounded-xl hover:bg-slate-800 text-slate-300" onclick="showSection('wallet')">
+                    <i class="fas fa-wallet"></i> DOMPET DIGITAL
+                </button>
+                <button class="w-full text-left flex items-center gap-4 p-4 rounded-xl hover:bg-slate-800 text-slate-300" onclick="showSection('help')">
+                    <i class="fas fa-cog"></i> HELP & SETTINGS
+                </button>
             </nav>
-            <button id="logout" class="mt-10 p-4 text-red-500 font-bold w-full hover:bg-red-500/10 rounded-xl">LOGOUT</button>
+
+            <button onclick="location.replace('login.html')" class="mt-12 w-full p-4 text-red-500 font-bold flex items-center gap-4 hover:bg-red-500/10 rounded-xl transition">
+                <i class="fas fa-power-off"></i> LOGOUT
+            </button>
         </div>
     </aside>
 
-    <main class="p-8">
+    <main>
         <section id="content-home" class="content-section active">
-            <h2 class="text-3xl font-black mb-6 uppercase italic">DASHBOARD</h2>
-            <div class="card p-6">Status: <span class="text-green-500">Online & Stabil</span></div>
+            <h2 class="text-2xl font-black mb-6 uppercase italic text-white tracking-tighter">Prime Deals (>10jt)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="card flex gap-4 items-center">
+                    <i class="fas fa-laptop-code text-4xl text-blue-500"></i>
+                    <div>
+                        <h4 class="font-bold">Quantum Laptop X-1</h4>
+                        <p class="text-blue-400 font-mono">Rp 24.500.000</p>
+                    </div>
+                </div>
+                <div class="card flex gap-4 items-center">
+                    <i class="fas fa-server text-4xl text-purple-500"></i>
+                    <div>
+                        <h4 class="font-bold">Server Aurora Core</h4>
+                        <p class="text-blue-400 font-mono">Rp 12.000.000</p>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <section id="content-shop" class="content-section">
-            <h2 class="text-3xl font-black mb-6 uppercase italic">BELANJA</h2>
-            <div class="grid grid-cols-2 gap-4">
-                <div class="card p-4 text-center">Elektronik</div>
-                <div class="card p-4 text-center">Furniture</div>
+            <h2 class="text-2xl font-black mb-6 uppercase italic text-white tracking-tighter">Operational Shop</h2>
+            <div class="space-y-6">
+                <div>
+                    <h3 class="text-sm font-bold text-slate-500 uppercase mb-3 italic">Furniture & Rumah</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="card text-center"><i class="fas fa-couch mb-2"></i><p class="text-xs">Furniture</p></div>
+                        <div class="card text-center"><i class="fas fa-tools mb-2"></i><p class="text-xs">Peralatan</p></div>
+                        <div class="card text-center"><i class="fas fa-lightbulb mb-2"></i><p class="text-xs">Kebutuhan</p></div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold text-slate-500 uppercase mb-3 italic">Electronics</h3>
+                    <div class="card border-l-4 border-l-blue-600">
+                        <p class="font-bold">Neural Processor v1</p>
+                        <p class="text-xs text-slate-500">Ready for deployment.</p>
+                    </div>
+                </div>
             </div>
         </section>
 
         <section id="content-wallet" class="content-section">
-            <h2 class="text-3xl font-black mb-6 uppercase italic">DOMPET</h2>
-            <div class="card p-6">Gopay & ShopeePay Tautkan No HP.</div>
+            <h2 class="text-2xl font-black mb-6 uppercase italic text-white tracking-tighter">Digital Wallets</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="card border-l-4 border-l-green-500">
+                    <p class="text-xs font-bold text-slate-500 uppercase">Gopay</p>
+                    <p class="text-3xl font-mono mb-4">Rp 0,00</p>
+                    <button class="w-full border border-green-500 py-2 rounded-lg text-xs font-bold uppercase text-green-500">Tautkan Nomor</button>
+                </div>
+                <div class="card border-l-4 border-l-orange-500">
+                    <p class="text-xs font-bold text-slate-500 uppercase">ShopeePay</p>
+                    <p class="text-3xl font-mono mb-4">Rp 0,00</p>
+                    <button class="w-full border border-orange-500 py-2 rounded-lg text-xs font-bold uppercase text-orange-500">Tautkan Nomor</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="content-help" class="content-section text-center py-20">
+            <i class="fas fa-user-cog text-6xl text-slate-800 mb-4"></i>
+            <h2 class="text-xl font-bold text-slate-500 uppercase">Account Settings</h2>
+            <p class="text-xs text-slate-600 mt-2 italic">Access restricted by administrator.</p>
         </section>
     </main>
 
     <script>
-        // Logika Sidebar
+        // Logika Sidebar Tanpa Firebase
         const sidebar = document.getElementById('sidebar');
-        document.getElementById('open-sidebar').onclick = () => sidebar.classList.add('active');
-        document.getElementById('close-sidebar').onclick = () => sidebar.classList.remove('active');
-        
+        const overlay = document.getElementById('overlay');
+        const openBtn = document.getElementById('open-sidebar');
+        const closeBtn = document.getElementById('close-sidebar');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        openBtn.addEventListener('click', toggleSidebar);
+        closeBtn.addEventListener('click', toggleSidebar);
+        overlay.addEventListener('click', toggleSidebar);
+
         function showSection(id) {
             document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
             document.getElementById('content-' + id).classList.add('active');
-            sidebar.classList.remove('active');
+            
+            // Update button style
+            document.querySelectorAll('nav button').forEach(b => {
+                b.classList.remove('bg-blue-600/20', 'text-blue-400', 'border', 'border-blue-600/30', 'font-bold');
+                b.classList.add('text-slate-300');
+            });
+            event.currentTarget.classList.add('bg-blue-600/20', 'text-blue-400', 'border', 'border-blue-600/30', 'font-bold');
+            
+            toggleSidebar();
         }
-
-        // LOGOUT MANUAL SAJA (Tidak ada pengecekan Firebase)
-        document.getElementById('logout').onclick = () => {
-            window.location.replace("login.html");
-        };
     </script>
 </body>
 </html>
