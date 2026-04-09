@@ -2,31 +2,65 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | Sky-Aurora</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background: #020617; color: white; }
+        .card { background: #0f172a; border: 1px solid #1e293b; transition: 0.3s; }
+        .card:hover { border-color: #3b82f6; }
+    </style>
 </head>
-<body class="bg-[#020617] text-white flex h-screen">
+<body class="flex h-screen overflow-hidden">
 
-    <div class="flex-1 flex items-center justify-center">
-        <h2 id="status" class="text-2xl font-mono animate-pulse">VERIFYING CREDENTIALS...</h2>
-    </div>
+    <aside class="w-64 bg-slate-900 border-r border-slate-800 p-6 flex flex-col">
+        <h1 class="text-blue-500 font-black tracking-widest mb-10 text-xl uppercase italic">Sky-Aurora</h1>
+        <nav class="flex-1 space-y-3">
+            <a href="#" class="flex items-center gap-4 p-4 rounded-xl bg-blue-600 font-bold"><i class="fas fa-home"></i> HOME</a>
+            <a href="#" class="flex items-center gap-4 p-4 rounded-xl text-slate-400 hover:bg-slate-800"><i class="fas fa-laptop"></i> ELECTRONICS</a>
+            <a href="#" class="flex items-center gap-4 p-4 rounded-xl text-slate-400 hover:bg-slate-800"><i class="fas fa-wallet"></i> PAYMENTS</a>
+        </nav>
+        <button id="logout" class="p-4 text-red-500 font-bold flex items-center gap-4 hover:bg-red-500/10 rounded-xl">
+            <i class="fas fa-power-off"></i> LOGOUT
+        </button>
+    </aside>
+
+    <main class="flex-1 p-8 overflow-y-auto">
+        <h2 class="text-3xl font-black mb-8 text-blue-400 uppercase tracking-tighter">CLIENT DASHBOARD</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+            <div class="card p-8 rounded-[30px] border-l-4 border-l-blue-500">
+                <p class="text-[10px] text-slate-500 font-bold uppercase mb-2">GoPay Balance</p>
+                <p class="text-4xl font-mono">Rp 0,00</p>
+            </div>
+            <div class="card p-8 rounded-[30px] border-l-4 border-l-orange-500">
+                <p class="text-[10px] text-slate-500 font-bold uppercase mb-2">ShopeePay Balance</p>
+                <p class="text-4xl font-mono">Rp 0,00</p>
+            </div>
+        </div>
+
+        <h3 class="text-slate-400 font-bold mb-6 uppercase text-xs tracking-[0.3em]">Hardware Inventory</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="card p-6 rounded-3xl">
+                <h4 class="font-bold">Neural Processor v1</h4>
+                <p class="text-xs text-slate-500 mt-2">Ready for deployment.</p>
+            </div>
+        </div>
+    </main>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         
         const auth = getAuth(initializeApp({apiKey: "AIzaSyB0d3Lnob3ewk9JgjRhzhqB1hX5WUBtBxE", authDomain: "sky-aurora-industries.firebaseapp.com", projectId: "sky-aurora-industries", storageBucket: "sky-aurora-industries.firebasestorage.app", messagingSenderId: "630007984883", appId: "1:630007984883:web:0f760ad82938522d4f7d86"}));
 
-        // GANTI LOGIKA: Jangan langsung redirect. Tunggu Firebase selesai load.
-        (auth, (user) => {
-            if (user) {
-                // Jika user ditemukan, baru tampilkan konten dashboard
-                window.location.href = "dashboard_content.html"; // ATAU load konten langsung di sini
-            } else {
-                // Hanya tendang jika memang benar-benar tidak ada session
-                window.location.replace("login.html");
-            }
-        });
+        // HANYA LOGOUT SAJA, TIDAK ADA CEK OTOMATIS
+        document.getElementById('logout').onclick = () => {
+            signOut(auth).then(() => { 
+                window.location.replace("login.html"); 
+            });
+        };
     </script>
 </body>
 </html>
