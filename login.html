@@ -2,24 +2,23 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Sky-Aurora | Login</title>
+    <title>Sky-Aurora | Access</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-950 flex justify-center items-center h-screen text-white">
-    <div class="bg-slate-900 p-8 rounded-2xl w-full max-w-sm border border-blue-900">
-        <h1 class="text-center font-bold text-xl mb-6 uppercase tracking-widest">Sky-Aurora Login</h1>
-        <input type="email" id="email" class="w-full p-3 mb-4 bg-slate-800 rounded border border-slate-700" placeholder="Email">
-        <input type="password" id="password" class="w-full p-3 mb-4 bg-slate-800 rounded border border-slate-700" placeholder="Password">
-        <button id="login" class="w-full bg-blue-600 p-3 rounded font-bold mb-2">LOGIN</button>
-        <button id="register" class="w-full bg-slate-800 p-3 rounded font-bold">REGISTER</button>
-        <p id="error" class="mt-4 text-xs text-red-500 text-center"></p>
+<body class="bg-[#020617] flex justify-center items-center h-screen text-white p-6">
+    <div class="bg-[#0f172a] p-8 rounded-3xl w-full max-w-sm border border-blue-900 shadow-2xl">
+        <h1 class="text-center font-black text-xl mb-6 uppercase tracking-[0.2em] text-blue-500">Sky-Aurora Login</h1>
+        <input type="email" id="email" class="w-full p-4 mb-4 bg-slate-900 rounded-xl border border-slate-800 outline-none focus:border-blue-500 text-sm" placeholder="Email">
+        <input type="password" id="password" class="w-full p-4 mb-4 bg-slate-900 rounded-xl border border-slate-800 outline-none focus:border-blue-500 text-sm" placeholder="Password">
+        <button id="login" class="w-full bg-blue-600 p-4 rounded-xl font-bold mb-3 hover:bg-blue-500">LOGIN</button>
+        <button id="register" class="w-full border border-blue-600 p-4 rounded-xl font-bold text-blue-400 hover:bg-blue-600/10">REGISTER</button>
+        <p id="error" class="mt-6 text-[10px] text-red-500 text-center font-mono"></p>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-        // Kunci yang sudah diperbaiki (Perhatikan huruf B besar)
         const firebaseConfig = {
             apiKey: "AIzaSyB0d3Lnob3ewk9JgjRhzhqB1hX5WUbtBxE",
             authDomain: "sky-aurora-industries.firebaseapp.com",
@@ -36,15 +35,16 @@
         document.getElementById('register').onclick = async () => {
             try {
                 await createUserWithEmailAndPassword(auth, document.getElementById('email').value, document.getElementById('password').value);
-                errorTag.innerText = "Akun berhasil dibuat!"; errorTag.style.color = "green";
-            } catch (e) { errorTag.innerText = e.message; }
+                errorTag.innerText = "Akun berhasil dibuat!"; errorTag.style.color = "#4ade80";
+            } catch (e) { errorTag.innerText = e.message; errorTag.style.color = "#f87171"; }
         };
 
         document.getElementById('login').onclick = async () => {
             try {
                 await signInWithEmailAndPassword(auth, document.getElementById('email').value, document.getElementById('password').value);
-                window.location.href = "index.html";
-            } catch (e) { errorTag.innerText = e.message; }
+                // SETELAH LOGIN, KE DASHBOARD.HTML
+                window.location.href = "dashboard.html";
+            } catch (e) { errorTag.innerText = e.message; errorTag.style.color = "#f87171"; }
         };
     </script>
 </body>
