@@ -3,65 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SKY-AURORA | CLIENT_AUTH</title>
+    <title>Sky-Aurora Industries | Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            background: #000 url('hacker-bg.png') no-repeat center center fixed; 
-            background-size: cover;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex; justify-content: center; align-items: center; height: 100vh;
-        }
-        body::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 1; }
-
-        .login-card { 
-            background: rgba(255, 255, 255, 0.95); 
-            padding: 40px; border-radius: 15px; width: 100%; max-width: 400px;
-            position: relative; z-index: 2; box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-            text-align: center;
-        }
-        h2 { color: #4b0082; margin-bottom: 10px; font-style: italic; }
-        .input-group { margin: 15px 0; text-align: left; }
-        input, select { 
-            width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ddd; 
-            border-radius: 5px; outline: none; 
-        }
-        .btn-login { 
-            width: 100%; padding: 12px; background: #4b0082; color: white; 
-            border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 10px;
-        }
-        .btn-google {
-            width: 100%; padding: 10px; background: #fff; color: #555; 
-            border: 1px solid #ddd; border-radius: 5px; cursor: pointer; 
-            margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 10px;
-        }
-        .footer-link { margin-top: 20px; font-size: 0.85em; color: #666; }
-        .footer-link a { color: #4b0082; text-decoration: none; font-weight: bold; }
+        body { background: radial-gradient(circle at center, #0f172a 0%, #020617 100%); }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
     </style>
 </head>
-<body>
-    <div class="login-card">
-        <h2>Sky Aurora Industries</h2>
-        <p style="font-size: 0.9em; color: #555; margin-bottom: 20px;">Client Operational Access</p>
-        
-        <form id="loginForm">
-            <div class="input-group">
-                <input type="text" placeholder="Username / Email" required>
-            </div>
-            <div class="input-group">
-                <input type="password" placeholder="Password" required>
-            </div>
-            <button type="submit" class="btn-login">Log In</button>
-        </form>
+<body class="h-screen flex items-center justify-center p-4">
 
-        <button class="btn-google" onclick="alert('Google Auth Sedang Diintegrasikan...')">
-            <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" width="20" alt="G">
-            Sign in with Google
-        </button>
-
-        <div class="footer-link">
-            Belum punya akses? <a href="signup.html">Sign Up di sini</a>
+    <div class="glass w-full max-w-md rounded-2xl p-8 text-center shadow-2xl">
+        <div class="mb-6">
+            <i class="fas fa-shield-halved text-5xl text-blue-500 mb-4"></i>
+            <h1 class="text-2xl font-bold text-white tracking-widest uppercase">Sky-Aurora</h1>
+            <p class="text-slate-400 text-sm">Industrial Security Portal Access</p>
         </div>
+
+        <div class="space-y-4">
+            <button id="google-login" class="w-full flex items-center justify-center gap-3 bg-white hover:bg-slate-200 text-black font-semibold py-3 px-6 rounded-lg transition-all active:scale-95">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/action/google.svg" width="20">
+                Sign in with Google
+            </button>
+            
+            <div id="user-info" class="hidden mt-4 p-4 rounded-lg bg-green-500/10 border border-green-500/20">
+                <p id="welcome-msg" class="text-green-400 font-medium"></p>
+                <button id="logout" class="mt-2 text-xs text-slate-400 underline uppercase">Logout</button>
+            </div>
+        </div>
+
+        <p class="mt-8 text-[10px] text-slate-500 uppercase tracking-tighter">Authorized Personnel Only • © 2026 Sky-Aurora Industries</p>
     </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        // Konfigurasi Firebase Milik Juandi
+        const firebaseConfig = {
+            apiKey: "AIzaSyB0d3Lnob3ewk9JgjRhzhqB1hX5WUBtBxE",
+            authDomain: "sky-aurora-industries.firebaseapp.com",
+            projectId: "sky-aurora-industries",
+            storageBucket: "sky-aurora-industries.firebasestorage.app",
+            messagingSenderId: "630007984883",
+            appId: "1:630007984883:web:0f760ad82938522d4f7d86",
+            measurementId: "G-HLWT0L2XPP"
+        };
+
+        // Inisialisasi
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        const loginBtn = document.getElementById('google-login');
+        const userInfo = document.getElementById('user-info');
+        const welcomeMsg = document.getElementById('welcome-msg');
+        const logoutBtn = document.getElementById('logout');
+
+        // Fungsi Login
+        loginBtn.onclick = async () => {
+            try {
+                await signInWithPopup(auth, provider);
+            } catch (error) {
+                console.error("Login Gagal:", error);
+                alert("Gagal Login: " + error.message);
+            }
+        };
+
+        // Pantau Status Login
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                loginBtn.classList.add('hidden');
+                userInfo.classList.remove('hidden');
+                welcomeMsg.innerText = "Access Granted: " + user.displayName;
+            } else {
+                loginBtn.classList.remove('hidden');
+                userInfo.classList.add('hidden');
+            }
+        });
+
+        // Logout
+        logoutBtn.onclick = () => signOut(auth);
+    </script>
 </body>
 </html>
