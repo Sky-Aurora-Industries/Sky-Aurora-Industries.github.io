@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sky-Aurora | Access Portal</title>
+    <title>Sky-Aurora | Portal Access</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -14,29 +14,29 @@
 <body class="h-screen flex items-center justify-center p-6">
     <div class="glass w-full max-w-md rounded-3xl p-8 shadow-2xl border-t-4 border-t-blue-600">
         <div class="text-center mb-8">
-            <i class="fas fa-user-shield text-5xl text-blue-500 mb-4"></i>
+            <i class="fas fa-shield-halved text-5xl text-blue-500 mb-4"></i>
             <h1 class="text-2xl font-black text-white tracking-widest uppercase">Sky-Aurora</h1>
-            <p class="text-slate-500 text-[10px] uppercase tracking-[0.3em] mt-2">Personnel Authentication</p>
+            <p class="text-slate-500 text-[10px] uppercase tracking-[0.3em] mt-2">Authentication System</p>
         </div>
 
-        <form id="auth-form" class="space-y-4">
-            <input type="email" id="email" class="w-full bg-slate-900 border border-slate-700 rounded-xl py-3 px-4 text-white focus:border-blue-500 outline-none" placeholder="Email Address" required>
-            <input type="password" id="password" class="w-full bg-slate-900 border border-slate-700 rounded-xl py-3 px-4 text-white focus:border-blue-500 outline-none" placeholder="Access Key / Password" required>
+        <div class="space-y-4">
+            <input type="email" id="email" class="w-full bg-slate-900 border border-slate-700 rounded-xl py-3 px-4 text-white focus:border-blue-500 outline-none" placeholder="Gmail Address" required>
+            <input type="password" id="password" class="w-full bg-slate-900 border border-slate-700 rounded-xl py-3 px-4 text-white focus:border-blue-500 outline-none" placeholder="Password" required>
             
             <div class="flex gap-2">
-                <button type="submit" id="btn-login" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl transition-all active:scale-95 text-xs uppercase">Login</button>
-                <button type="button" id="btn-register" class="flex-1 bg-slate-800 hover:bg-slate-700 text-blue-400 font-bold py-3 rounded-xl transition-all active:scale-95 text-xs uppercase border border-blue-900/50">Register</button>
+                <button id="btn-login" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl transition-all active:scale-95 text-xs">LOGIN</button>
+                <button id="btn-register" class="flex-1 bg-slate-800 hover:bg-slate-700 text-blue-400 font-bold py-3 rounded-xl transition-all active:scale-95 text-xs border border-blue-900/30">REGISTER</button>
             </div>
-        </form>
+        </div>
 
-        <p id="status-msg" class="mt-4 text-center text-xs font-medium"></p>
-        <p class="mt-8 text-center text-[9px] text-slate-600 uppercase tracking-widest">Sky-Aurora Industries Security Protocol © 2026</p>
+        <p id="status-msg" class="mt-4 text-center text-xs font-bold"></p>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
+        // KUNCI YANG SUDAH DIBERSIHKAN
         const firebaseConfig = {
             apiKey: "AIzaSyB0d3Lnob3ewk9JgjRhzhqB1hX5WUBtBxE",
             authDomain: "sky-aurora-industries.firebaseapp.com",
@@ -50,32 +50,32 @@
         const auth = getAuth(app);
         const statusMsg = document.getElementById('status-msg');
 
-        // Fungsi Login
-        document.getElementById('btn-login').onclick = async (e) => {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            try {
-                await signInWithEmailAndPassword(auth, email, password);
-                statusMsg.className = "mt-4 text-center text-xs text-green-500";
-                statusMsg.innerText = "ACCESS GRANTED. Redirecting...";
-                setTimeout(() => { window.location.href = "index.html"; }, 1500);
-            } catch (err) {
-                statusMsg.className = "mt-4 text-center text-xs text-red-500";
-                statusMsg.innerText = "DENIED: " + err.message;
-            }
-        };
-
-        // Fungsi Daftar
+        // Fungsi REGISTER (Daftar Akun Baru)
         document.getElementById('btn-register').onclick = async () => {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             try {
                 await createUserWithEmailAndPassword(auth, email, password);
-                statusMsg.className = "mt-4 text-center text-xs text-blue-400";
-                statusMsg.innerText = "ACCOUNT CREATED. You can Login now.";
+                statusMsg.className = "mt-4 text-center text-xs text-green-400";
+                statusMsg.innerText = "REGISTRASI BERHASIL! Silakan klik Login.";
             } catch (err) {
                 statusMsg.className = "mt-4 text-center text-xs text-red-500";
-                statusMsg.innerText = "FAILED: " + err.message;
+                statusMsg.innerText = "ERROR: " + err.message;
+            }
+        };
+
+        // Fungsi LOGIN
+        document.getElementById('btn-login').onclick = async () => {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                statusMsg.className = "mt-4 text-center text-xs text-blue-400";
+                statusMsg.innerText = "ACCESS GRANTED! Menuju Dashboard...";
+                setTimeout(() => { window.location.href = "index.html"; }, 2000);
+            } catch (err) {
+                statusMsg.className = "mt-4 text-center text-xs text-red-500";
+                statusMsg.innerText = "DENIED: " + err.message;
             }
         };
     </script>
