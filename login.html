@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sky-Aurora Industries | Login</title>
+    <title>Sky-Aurora Industries | Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background: radial-gradient(circle at center, #0f172a 0%, #020617 100%); }
+        body { background: #020617; }
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
     </style>
 </head>
@@ -17,29 +17,26 @@
         <div class="mb-6">
             <i class="fas fa-shield-halved text-5xl text-blue-500 mb-4"></i>
             <h1 class="text-2xl font-bold text-white tracking-widest uppercase">Sky-Aurora</h1>
-            <p class="text-slate-400 text-sm">Industrial Security Portal Access</p>
+            <p class="text-slate-400 text-sm italic">Industrial Security Portal Access</p>
         </div>
 
-        <div class="space-y-4">
-            <button id="google-login" class="w-full flex items-center justify-center gap-3 bg-white hover:bg-slate-200 text-black font-semibold py-3 px-6 rounded-lg transition-all active:scale-95">
-                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/action/google.svg" width="20">
-                Sign in with Google
-            </button>
-            
-            <div id="user-info" class="hidden mt-4 p-4 rounded-lg bg-green-500/10 border border-green-500/20">
-                <p id="welcome-msg" class="text-green-400 font-medium"></p>
-                <button id="logout" class="mt-2 text-xs text-slate-400 underline uppercase">Logout</button>
-            </div>
+        <button id="google-login" class="w-full flex items-center justify-center gap-3 bg-white hover:bg-slate-200 text-black font-bold py-3 px-6 rounded-lg transition-all active:scale-95">
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/action/google.svg" width="20" alt="G">
+            Sign in with Google
+        </button>
+        
+        <div id="user-info" class="hidden mt-4 p-4 rounded-lg bg-blue-500/10 border border-blue-500/30">
+            <p id="welcome-msg" class="text-blue-400 font-medium"></p>
+            <button id="logout" class="mt-2 text-[10px] text-slate-500 underline uppercase">Logout</button>
         </div>
 
-        <p class="mt-8 text-[10px] text-slate-500 uppercase tracking-tighter">Authorized Personnel Only • © 2026 Sky-Aurora Industries</p>
+        <p class="mt-8 text-[9px] text-slate-600 uppercase tracking-widest">Authorized Personnel Only • © 2026</p>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-        // Konfigurasi Firebase Milik Juandi
         const firebaseConfig = {
             apiKey: "AIzaSyB0d3Lnob3ewk9JgjRhzhqB1hX5WUBtBxE",
             authDomain: "sky-aurora-industries.firebaseapp.com",
@@ -50,7 +47,6 @@
             measurementId: "G-HLWT0L2XPP"
         };
 
-        // Inisialisasi
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
@@ -60,29 +56,27 @@
         const welcomeMsg = document.getElementById('welcome-msg');
         const logoutBtn = document.getElementById('logout');
 
-        // Fungsi Login
         loginBtn.onclick = async () => {
             try {
+                // Paksa buka popup
                 await signInWithPopup(auth, provider);
             } catch (error) {
-                console.error("Login Gagal:", error);
-                alert("Gagal Login: " + error.message);
+                console.error("Login Error:", error);
+                alert("Waduh! Ada masalah: " + error.message);
             }
         };
 
-        // Pantau Status Login
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 loginBtn.classList.add('hidden');
                 userInfo.classList.remove('hidden');
-                welcomeMsg.innerText = "Access Granted: " + user.displayName;
+                welcomeMsg.innerText = "ACCESS GRANTED: " + user.displayName.toUpperCase();
             } else {
                 loginBtn.classList.remove('hidden');
                 userInfo.classList.add('hidden');
             }
         });
 
-        // Logout
         logoutBtn.onclick = () => signOut(auth);
     </script>
 </body>
