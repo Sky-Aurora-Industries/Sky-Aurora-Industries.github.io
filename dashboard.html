@@ -4,31 +4,12 @@
     <meta charset="UTF-8">
     <title>Dashboard | Sky-Aurora</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-[#020617] text-white flex h-screen overflow-hidden">
+<body class="bg-[#020617] text-white flex h-screen">
 
-    <aside class="w-64 bg-slate-900 border-r border-slate-800 p-6 flex flex-col">
-        <h1 class="text-blue-500 font-black tracking-widest mb-10 text-xl uppercase italic">Sky-Aurora</h1>
-        <nav class="flex-1 space-y-3">
-            <a href="#" class="flex items-center gap-4 p-4 rounded-xl bg-blue-600 font-bold"><i class="fas fa-home"></i> HOME</a>
-            <a href="#" class="flex items-center gap-4 p-4 rounded-xl text-slate-400 hover:bg-slate-800"><i class="fas fa-laptop"></i> ELECTRONICS</a>
-            <a href="#" class="flex items-center gap-4 p-4 rounded-xl text-slate-400 hover:bg-slate-800"><i class="fas fa-wallet"></i> PAYMENTS</a>
-        </nav>
-        <button id="out" class="p-4 text-red-500 font-bold flex items-center gap-4 hover:bg-red-500/10 rounded-xl">
-            <i class="fas fa-power-off"></i> LOGOUT
-        </button>
-    </aside>
-
-    <main class="flex-1 p-8 overflow-y-auto">
-        <h2 id="u" class="text-3xl font-black mb-8 text-blue-400 uppercase tracking-tighter">Loading Session...</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-[#0f172a] p-8 rounded-[30px] border border-slate-800">
-                <p class="text-[10px] text-slate-500 font-bold uppercase mb-2">GoPay Balance</p>
-                <p class="text-4xl font-mono">Rp 0,00</p>
-            </div>
-        </div>
-    </main>
+    <div class="flex-1 flex items-center justify-center">
+        <h2 id="status" class="text-2xl font-mono animate-pulse">VERIFYING CREDENTIALS...</h2>
+    </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -36,24 +17,16 @@
         
         const auth = getAuth(initializeApp({apiKey: "AIzaSyB0d3Lnob3ewk9JgjRhzhqB1hX5WUBtBxE", authDomain: "sky-aurora-industries.firebaseapp.com", projectId: "sky-aurora-industries", storageBucket: "sky-aurora-industries.firebasestorage.app", messagingSenderId: "630007984883", appId: "1:630007984883:web:0f760ad82938522d4f7d86"}));
 
-        // Perbaikan: Tambahkan jeda waktu sebelum memutuskan untuk kick user
-        let userVerified = false;
-        
+        // GANTI LOGIKA: Jangan langsung redirect. Tunggu Firebase selesai load.
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                userVerified = true;
-                document.getElementById('u').innerText = "Personnel: " + user.email.split('@')[0].toUpperCase();
+                // Jika user ditemukan, baru tampilkan konten dashboard
+                window.location.href = "dashboard_content.html"; // ATAU load konten langsung di sini
             } else {
-                // Berikan jeda 1 detik agar Firebase punya waktu cek status login
-                setTimeout(() => {
-                    if (!userVerified) {
-                        window.location.replace("login.html");
-                    }
-                }, 1000); 
+                // Hanya tendang jika memang benar-benar tidak ada session
+                window.location.replace("login.html");
             }
         });
-
-        document.getElementById('out').onclick = () => signOut(auth).then(() => window.location.replace("login.html"));
     </script>
 </body>
 </html>
