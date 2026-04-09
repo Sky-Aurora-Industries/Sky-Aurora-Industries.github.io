@@ -3,150 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SKY-AURORA | OPERATIONAL PORTAL</title>
+    <title>Sky-Aurora | Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        /* Setting Background & Overlay Gelap */
-        body { 
-            background: #000;
-            background-image: url('hacker-bg.png'); /* File lo */
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: #0f0;
-            font-family: 'Courier New', monospace;
-            overflow-x: hidden;
-            
-            /* Lapisan Terang biar Elegant */
-            position: relative;
-        }
-
-        /* Overlay Gelap di atas Gambar biar Misterius */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.45); /* Gelapin di 0.45 biar elegan */
-            z-index: -1;
-        }
-
-        /* Container & Grid biar Layout Pas (HP/Laptop) */
-        .container { 
-            display: grid;
-            grid-template-columns: 1fr;
-            place-items: center;
-            height: 100vh;
-            padding: 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Box Teks Model Kaca (Glassmorphism) */
-        .glass-box { 
-            border: 1px solid rgba(0, 255, 0, 0.5); 
-            padding: 25px; 
-            background: rgba(0, 20, 0, 0.7); /* Transparan */
-            backdrop-filter: blur(8px); /* Efek Blur di belakang kaca */
-            -webkit-backdrop-filter: blur(8px);
-            border-radius: 5px;
-            box-shadow: 0 0 25px rgba(0, 255, 0, 0.3); 
-            transition: 0.3s;
-            max-width: 600px;
-            width: 100%;
-        }
-
-        /* Setting Spesifik biar Pas di Laptop */
-        @media (min-width: 768px) {
-            .glass-box { max-width: 750px; }
-        }
-
-        .terminal-header { border-bottom: 1px solid rgba(0, 255, 0, 0.5); margin-bottom: 15px; padding-bottom: 10px; }
-        h1 { font-size: 1.4em; text-shadow: 0 0 10px #0f0; letter-spacing: 2px; }
-        .status-line { font-size: 0.7em; color: #888; margin-bottom: 15px; }
-        
-        /* Efek Teks Kelap-Kelip Misterius (Ganti 4s -> 6s) */
-        @keyframes subtlePulse {
-            0%, 100% { opacity: 0.7; text-shadow: 0 0 5px #0f0; }
-            50% { opacity: 1; text-shadow: 0 0 15px #0f0; }
-        }
-
-        .data-row { margin: 10px 0; font-size: 0.9em; line-height: 1.6; color: #fff; animation: subtlePulse 6s infinite; }
-        .highlight { color: cyan; text-decoration: underline; }
-        
-        .btn-portal { 
-            display: inline-block; 
-            margin-top: 20px; 
-            padding: 12px 25px; 
-            border: 1px solid #0f0; 
-            color: #0f0; 
-            text-decoration: none; 
-            font-weight: bold; 
-            text-transform: uppercase;
-            font-size: 0.8em;
-            transition: 0.4s; 
-            background: transparent;
-        }
-        .btn-portal:hover { background: #0f0; color: #000; box-shadow: 0 0 15px #0f0; }
-
-        /* Canvas buat Hujan Angka Matrix */
-        #matrix { position: fixed; top: 0; left: 0; z-index: -2; opacity: 0.35; } /* Set opacity di 0.35 biar elegan */
-
+        body { background: #020617; color: white; }
+        .sidebar { background: rgba(15, 23, 42, 0.9); border-right: 1px solid #1e40af; transition: all 0.3s; }
+        .nav-item:hover { background: rgba(59, 130, 246, 0.1); color: #60a5fa; }
     </style>
 </head>
-<body oncontextmenu="return false;">
+<body class="flex h-screen overflow-hidden">
 
-    <canvas id="matrix"></canvas>
-
-    <div class="container">
-        <div class="glass-box">
-            <div class="terminal-header">
-                <h1>[ WELCOME TO OPERATIONAL PORTAL ]</h1>
-                <p class="status-line">SKY-AURORA_INDUSTRIES / CODE_NAME: SKY-PORTAL-S1</p>
-            </div>
-            
-            <p class="data-row">>> Ini adalah pusat kendali operasional <span class="highlight">SKY-AURORA</span>. Seluruh log dekripsi, pemantauan jaringan, dan arsip Cipher0x dapat diakses dari sini.</p>
-            
-            <p class="data-row" style="animation-delay: 1s;">>> STATUS: <span style="color: cyan;">ENCRYPTED [STABLE]</span></p>
-            <p class="data-row" style="animation-delay: 2s;">>> GEO-LOC: <span style="color: yellow;">UNTRACEABLE</span></p>
-
-            <a href="login.html" class="btn-portal">ACCESS CLIENT TERMINAL</a>
+    <aside class="sidebar w-64 flex flex-col p-6 shadow-2xl">
+        <div class="mb-10 flex items-center gap-3">
+            <i class="fas fa-shield-alt text-2xl text-blue-500"></i>
+            <h1 class="text-xl font-black tracking-widest uppercase">Sky-Aurora</h1>
         </div>
-    </div>
 
-    <script>
-        const canvas = document.getElementById('matrix');
-        const ctx = canvas.getContext('2d');
+        <nav class="flex-1 space-y-2">
+            <a href="#" class="nav-item flex items-center gap-4 p-4 rounded-xl text-blue-500 bg-blue-500/10 font-bold">
+                <i class="fas fa-home w-5"></i> HOME
+            </a>
+            <a href="#" class="nav-item flex items-center gap-4 p-4 rounded-xl text-slate-400 font-bold">
+                <i class="fas fa-user-circle w-5"></i> AKUN
+            </a>
+            <a href="#" class="nav-item flex items-center gap-4 p-4 rounded-xl text-slate-400 font-bold">
+                <i class="fas fa-wallet w-5"></i> DOMPET DIGITAL
+            </a>
+        </nav>
 
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        <button id="btn-logout" class="mt-auto flex items-center gap-4 p-4 text-red-500 font-bold hover:bg-red-500/10 rounded-xl">
+            <i class="fas fa-power-off"></i> SECURE LOGOUT
+        </button>
+    </aside>
 
-        const letters = "0101010101010101ABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%^&*";
-        const fontSize = 16;
-        const columns = canvas.width / fontSize;
+    <main class="flex-1 p-10 overflow-y-auto">
+        <div class="max-w-4xl">
+            <h2 id="user-display" class="text-3xl font-bold mb-2 uppercase tracking-tighter">Personnel: Loading...</h2>
+            <p class="text-slate-500 mb-10 text-sm">Status: <span class="text-green-500 font-bold">Encrypted Connection Active</span></p>
 
-        const drops = Array(Math.floor(columns)).fill(1);
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl shadow-lg">
+                    <p class="text-xs text-blue-500 font-bold uppercase mb-2">Saldo Dompet Digital</p>
+                    <p class="text-4xl font-mono">Rp 0,00</p>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl shadow-lg">
+                    <p class="text-xs text-blue-500 font-bold uppercase mb-2">Pemberitahuan</p>
+                    <p class="text-sm text-slate-400 italic">"Selamat datang di sistem Sky-Aurora. Semua aktivitas Anda dipantau secara aman."</p>
+                </div>
+            </div>
+        </div>
+    </main>
 
-        function draw() {
-            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-            ctx.fillStyle = "#0f0";
-            ctx.font = fontSize + "px monospace";
+        const firebaseConfig = {
+            apiKey: "AIzaSyB0d3Lnob3ewk9JgjRhzhqB1hX5WUBtBxE",
+            authDomain: "sky-aurora-industries.firebaseapp.com",
+            projectId: "sky-aurora-industries",
+            storageBucket: "sky-aurora-industries.firebasestorage.app",
+            messagingSenderId: "630007984883",
+            appId: "1:630007984883:web:0f760ad82938522d4f7d86"
+        };
 
-            for (let i = 0; i < drops.length; i++) {
-                const text = letters.charAt(Math.floor(Math.random() * letters.length));
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
 
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
-                }
-                drops[i]++;
+        // Pantau apakah user sudah login atau belum
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                document.getElementById('user-display').innerText = "Personnel: " + user.email.split('@')[0];
+            } else {
+                // Jika belum login, tendang balik ke login.html
+                window.location.href = "login.html";
             }
-        }
+        });
 
-        setInterval(draw, 35); // Kecepatan hujan (35ms per frame)
+        // Fungsi Logout
+        document.getElementById('btn-logout').onclick = () => {
+            signOut(auth).then(() => {
+                window.location.href = "login.html";
+            });
+        };
     </script>
-
 </body>
 </html>
