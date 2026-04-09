@@ -2,29 +2,19 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sky-Aurora | Terminal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background: black; margin: 0; overflow: hidden; font-family: monospace; }
-        canvas { display: block; position: absolute; top: 0; left: 0; z-index: -1; opacity: 0.6; }
-        .terminal-box { border: 2px solid #00ff00; box-shadow: 0 0 20px #00ff00; background: rgba(0, 0, 0, 0.9); }
+        body { background: black; color: #00ff00; font-family: monospace; overflow: hidden; }
+        canvas { position: absolute; top: 0; left: 0; z-index: -1; opacity: 0.5; }
     </style>
 </head>
-<body class="flex items-center justify-center h-screen px-4">
+<body class="flex items-center justify-center h-screen">
     <canvas id="matrix"></canvas>
-
-    <div class="terminal-box p-8 md:p-12 text-center max-w-lg w-full">
-        <h1 class="text-[#00ff00] text-xl md:text-2xl font-bold mb-4 tracking-[0.2em] uppercase">[ WELCOME TO OPERATIONAL PORTAL ]</h1>
-        <p class="text-[#00ff00] text-[10px] mb-6 tracking-widest opacity-70">SKY-AURORA INDUSTRIES // CODENAME: SKY-PORTAL-01</p>
-        
-        <div class="text-left text-[#00ff00] text-[10px] mb-8 space-y-1 font-mono">
-            <p>>> STATUS: <span class="text-blue-400 font-bold">ENCRYPTED [STABLE]</span></p>
-            <p>>> GEO-LOC: UNTRACEABLE</p>
-            <p>>> SESSION: ACTIVE_STREAM_09</p>
-        </div>
-
-        <a href="login.html" class="inline-block w-full py-4 bg-[#00ff00] text-black font-black uppercase tracking-widest hover:bg-white transition-all duration-300 shadow-[0_0_15px_#00ff00]">
+    <div class="border-2 border-[#00ff00] p-10 bg-black/90 text-center shadow-[0_0_20px_#00ff00]">
+        <h1 class="text-2xl font-bold mb-4 uppercase">[ WELCOME TO OPERATIONAL PORTAL ]</h1>
+        <p class="mb-8 text-xs opacity-70">SKY-AURORA INDUSTRIES // CODENAME: SKY-PORTAL-01</p>
+        <a href="login.html" class="px-8 py-4 bg-[#00ff00] text-black font-black uppercase tracking-widest hover:bg-white transition-all">
             Access Client Terminal
         </a>
     </div>
@@ -32,17 +22,14 @@
     <script>
         const canvas = document.getElementById('matrix');
         const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         const fontSize = 16;
         const columns = canvas.width / fontSize;
         const drops = Array(Math.floor(columns)).fill(1);
         function draw() {
-            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "#00ff00";
-            ctx.font = fontSize + "px monospace";
+            ctx.fillStyle = "rgba(0, 0, 0, 0.05)"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#00ff00"; ctx.font = fontSize + "px monospace";
             for (let i = 0; i < drops.length; i++) {
                 const text = letters.charAt(Math.floor(Math.random() * letters.length));
                 ctx.fillText(text, i * fontSize, drops[i] * fontSize);
@@ -50,8 +37,7 @@
                 drops[i]++;
             }
         }
-        setInterval(draw, 35);
-        window.onresize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
+        setInterval(draw, 33);
     </script>
 </body>
 </html>
