@@ -21,25 +21,11 @@
     </aside>
 
     <main class="flex-1 p-8 overflow-y-auto">
-        <h2 id="u" class="text-3xl font-black mb-8 text-blue-400 uppercase tracking-tighter">Personnel: Loading...</h2>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-            <div class="bg-[#0f172a] p-8 rounded-[30px] border-l-4 border-l-blue-500 border border-slate-800">
+        <h2 id="u" class="text-3xl font-black mb-8 text-blue-400 uppercase tracking-tighter">Loading Session...</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-[#0f172a] p-8 rounded-[30px] border border-slate-800">
                 <p class="text-[10px] text-slate-500 font-bold uppercase mb-2">GoPay Balance</p>
                 <p class="text-4xl font-mono">Rp 0,00</p>
-            </div>
-            <div class="bg-[#0f172a] p-8 rounded-[30px] border-l-4 border-l-orange-500 border border-slate-800">
-                <p class="text-[10px] text-slate-500 font-bold uppercase mb-2">ShopeePay Balance</p>
-                <p class="text-4xl font-mono">Rp 150.000,00</p>
-            </div>
-        </div>
-
-        <h3 class="text-slate-400 font-bold mb-6 uppercase text-xs tracking-[0.3em]">Hardware Inventory</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-[#0f172a] p-6 rounded-3xl border border-slate-800">
-                <i class="fas fa-microchip text-4xl text-blue-500 mb-4"></i>
-                <h4 class="font-bold">Neural Processor v1</h4>
-                <p class="text-xs text-slate-500 mt-2">Status: Secure</p>
             </div>
         </div>
     </main>
@@ -48,31 +34,26 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         
-        const firebaseConfig = {
-            apiKey: "AIzaSyB0d3Lnob3ewk9JgjRhzhqB1hX5WUBtBxE",
-            authDomain: "sky-aurora-industries.firebaseapp.com",
-            projectId: "sky-aurora-industries",
-            storageBucket: "sky-aurora-industries.firebasestorage.app",
-            messagingSenderId: "630007984883",
-            appId: "1:630007984883:web:0f760ad82938522d4f7d86"
-        };
+        const auth = getAuth(initializeApp({apiKey: "AIzaSyB0d3Lnob3ewk9JgjRhzhqB1hX5WUBtBxE", authDomain: "sky-aurora-industries.firebaseapp.com", projectId: "sky-aurora-industries", storageBucket: "sky-aurora-industries.firebasestorage.app", messagingSenderId: "630007984883", appId: "1:630007984883:web:0f760ad82938522d4f7d86"}));
 
-        const auth = getAuth(initializeApp(firebaseConfig));
-
-        // LOGIKA PERBAIKAN: Tunggu status auth stabil
+        // Perbaikan: Tambahkan jeda waktu sebelum memutuskan untuk kick user
+        let userVerified = false;
+        
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // Jika user ada, tampilkan namanya
+                userVerified = true;
                 document.getElementById('u').innerText = "Personnel: " + user.email.split('@')[0].toUpperCase();
             } else {
-                // Jika benar-benar tidak ada user, baru lempar balik ke login
-                window.location.replace("login.html");
+                // Berikan jeda 1 detik agar Firebase punya waktu cek status login
+                setTimeout(() => {
+                    if (!userVerified) {
+                        window.location.replace("login.html");
+                    }
+                }, 1000); 
             }
         });
 
-        document.getElementById('out').onclick = () => {
-            signOut(auth).then(() => { window.location.replace("login.html"); });
-        };
+        document.getElementById('out').onclick = () => signOut(auth).then(() => window.location.replace("login.html"));
     </script>
 </body>
 </html>
