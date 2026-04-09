@@ -18,7 +18,7 @@
         const auth = getAuth(initializeApp({apiKey: "AIzaSyB0d3Lnob3ewk9JgjRhzhqB1hX5WUBtBxE", authDomain: "sky-aurora-industries.firebaseapp.com", projectId: "sky-aurora-industries", storageBucket: "sky-aurora-industries.firebasestorage.app", messagingSenderId: "630007984883", appId: "1:630007984883:web:0f760ad82938522d4f7d86"}));
 
         // GANTI LOGIKA: Jangan langsung redirect. Tunggu Firebase selesai load.
-        onAuthStateChanged(auth, (user) => {
+        (auth, (user) => {
             if (user) {
                 // Jika user ditemukan, baru tampilkan konten dashboard
                 window.location.href = "dashboard_content.html"; // ATAU load konten langsung di sini
