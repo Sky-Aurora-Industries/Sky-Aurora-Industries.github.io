@@ -3,39 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sky-Aurora Industries | Portal</title>
+    <title>Sky-Aurora | Access Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body { background: #020617; }
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(59, 130, 246, 0.2); }
     </style>
 </head>
-<body class="h-screen flex items-center justify-center p-4">
-
-    <div class="glass w-full max-w-md rounded-2xl p-8 text-center shadow-2xl">
-        <div class="mb-6">
-            <i class="fas fa-shield-halved text-5xl text-blue-500 mb-4"></i>
-            <h1 class="text-2xl font-bold text-white tracking-widest uppercase">Sky-Aurora</h1>
-            <p class="text-slate-400 text-sm italic">Industrial Security Portal Access</p>
+<body class="h-screen flex items-center justify-center p-6">
+    <div class="glass w-full max-w-md rounded-3xl p-8 shadow-2xl border-t-4 border-t-blue-600">
+        <div class="text-center mb-8">
+            <i class="fas fa-user-shield text-5xl text-blue-500 mb-4"></i>
+            <h1 class="text-2xl font-black text-white tracking-widest uppercase">Sky-Aurora</h1>
+            <p class="text-slate-500 text-[10px] uppercase tracking-[0.3em] mt-2">Personnel Authentication</p>
         </div>
 
-        <button id="google-login" class="w-full flex items-center justify-center gap-3 bg-white hover:bg-slate-200 text-black font-bold py-3 px-6 rounded-lg transition-all active:scale-95">
-            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/action/google.svg" width="20" alt="G">
-            Sign in with Google
-        </button>
-        
-        <div id="user-info" class="hidden mt-4 p-4 rounded-lg bg-blue-500/10 border border-blue-500/30">
-            <p id="welcome-msg" class="text-blue-400 font-medium"></p>
-            <button id="logout" class="mt-2 text-[10px] text-slate-500 underline uppercase">Logout</button>
-        </div>
+        <form id="auth-form" class="space-y-4">
+            <input type="email" id="email" class="w-full bg-slate-900 border border-slate-700 rounded-xl py-3 px-4 text-white focus:border-blue-500 outline-none" placeholder="Email Address" required>
+            <input type="password" id="password" class="w-full bg-slate-900 border border-slate-700 rounded-xl py-3 px-4 text-white focus:border-blue-500 outline-none" placeholder="Access Key / Password" required>
+            
+            <div class="flex gap-2">
+                <button type="submit" id="btn-login" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl transition-all active:scale-95 text-xs uppercase">Login</button>
+                <button type="button" id="btn-register" class="flex-1 bg-slate-800 hover:bg-slate-700 text-blue-400 font-bold py-3 rounded-xl transition-all active:scale-95 text-xs uppercase border border-blue-900/50">Register</button>
+            </div>
+        </form>
 
-        <p class="mt-8 text-[9px] text-slate-600 uppercase tracking-widest">Authorized Personnel Only • © 2026</p>
+        <p id="status-msg" class="mt-4 text-center text-xs font-medium"></p>
+        <p class="mt-8 text-center text-[9px] text-slate-600 uppercase tracking-widest">Sky-Aurora Industries Security Protocol © 2026</p>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyB0d3Lnob3ewk9JgjRhzhqB1hX5WUBtBxE",
@@ -43,41 +43,41 @@
             projectId: "sky-aurora-industries",
             storageBucket: "sky-aurora-industries.firebasestorage.app",
             messagingSenderId: "630007984883",
-            appId: "1:630007984883:web:0f760ad82938522d4f7d86",
-            measurementId: "G-HLWT0L2XPP"
+            appId: "1:630007984883:web:0f760ad82938522d4f7d86"
         };
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-        const provider = new GoogleAuthProvider();
+        const statusMsg = document.getElementById('status-msg');
 
-        const loginBtn = document.getElementById('google-login');
-        const userInfo = document.getElementById('user-info');
-        const welcomeMsg = document.getElementById('welcome-msg');
-        const logoutBtn = document.getElementById('logout');
-
-        loginBtn.onclick = async () => {
+        // Fungsi Login
+        document.getElementById('btn-login').onclick = async (e) => {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
             try {
-                // Paksa buka popup
-                await signInWithPopup(auth, provider);
-            } catch (error) {
-                console.error("Login Error:", error);
-                alert("Waduh! Ada masalah: " + error.message);
+                await signInWithEmailAndPassword(auth, email, password);
+                statusMsg.className = "mt-4 text-center text-xs text-green-500";
+                statusMsg.innerText = "ACCESS GRANTED. Redirecting...";
+                setTimeout(() => { window.location.href = "index.html"; }, 1500);
+            } catch (err) {
+                statusMsg.className = "mt-4 text-center text-xs text-red-500";
+                statusMsg.innerText = "DENIED: " + err.message;
             }
         };
 
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                loginBtn.classList.add('hidden');
-                userInfo.classList.remove('hidden');
-                welcomeMsg.innerText = "ACCESS GRANTED: " + user.displayName.toUpperCase();
-            } else {
-                loginBtn.classList.remove('hidden');
-                userInfo.classList.add('hidden');
+        // Fungsi Daftar
+        document.getElementById('btn-register').onclick = async () => {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            try {
+                await createUserWithEmailAndPassword(auth, email, password);
+                statusMsg.className = "mt-4 text-center text-xs text-blue-400";
+                statusMsg.innerText = "ACCOUNT CREATED. You can Login now.";
+            } catch (err) {
+                statusMsg.className = "mt-4 text-center text-xs text-red-500";
+                statusMsg.innerText = "FAILED: " + err.message;
             }
-        });
-
-        logoutBtn.onclick = () => signOut(auth);
+        };
     </script>
 </body>
 </html>
