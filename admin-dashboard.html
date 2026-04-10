@@ -51,6 +51,34 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+// MONITORING CLIENT REAL-TIME (BARIS 54)
+onSnapshot(collection(db, "active_sessions"), (snapshot) => {
+    const clientList = document.getElementById('client-list');
+    const logTable = document.getElementById('log-table');
+    let listHtml = "";
+    let tableHtml = "";
+
+    snapshot.forEach((doc) => {
+        const data = doc.data();
+        // Update Daftar Client Atas
+        listHtml += `
+            <div class="p-3 bg-slate-800/50 rounded-xl border border-blue-500/20 mb-2">
+                <p class="text-blue-400 font-bold">${data.email}</p>
+                <p class="text-[9px] text-green-500">● ${data.status}</p>
+            </div>`;
+        
+        // Update Tabel Activity Log Bawah
+        tableHtml += `
+            <tr class="border-b border-slate-800">
+                <td class="py-2 text-slate-500">${data.last_login || '-'}</td>
+                <td class="py-2 text-blue-300">${data.email}</td>
+                <td class="py-2 text-green-500">ONLINE</td>
+            </tr>`;
+    });
+
+    clientList.innerHTML = listHtml || '<p class="text-slate-600 italic">No Active Clients</p>';
+    logTable.innerHTML = tableHtml;
+});
 
         // SADAP DATA SECARA REALTIME
         onSnapshot(query(collection(db, "users"), orderBy("timestamp", "desc")), (snap) => {
