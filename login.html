@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Portal | Sky Aurora</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)), url('1000099005.png'); background-size: cover; background-position: center; }
+        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(59, 130, 246, 0.2); }
+    </style>
+</head>
+<body class="h-screen flex items-center justify-center p-6 text-white">
+
+    <div class="glass p-8 rounded-[40px] w-full max-w-sm text-center shadow-2xl">
+        <h2 id="title" class="text-2xl font-black italic text-blue-500 mb-2 uppercase">CLIENT LOGIN</h2>
+        <p id="subtitle" class="text-[10px] text-slate-400 mb-8 tracking-widest">ACCESS OMNI-TECH TERMINAL</p>
+
+        <div class="space-y-4">
+            <input type="email" id="email" placeholder="GMAIL / EMAIL" class="w-full p-4 bg-black/40 rounded-2xl border border-slate-700 outline-none focus:border-blue-500 text-sm transition-all">
+            <input type="password" id="password" placeholder="PASSWORD" class="w-full p-4 bg-black/40 rounded-2xl border border-slate-700 outline-none focus:border-blue-500 text-sm transition-all">
+        </div>
+
+        <button id="authBtn" class="w-full bg-blue-600 p-4 rounded-2xl font-black uppercase tracking-widest mt-6 hover:bg-blue-500 transition-all active:scale-95 shadow-lg shadow-blue-500/20">
+            SIGN IN
+        </button>
+
+        <p class="mt-6 text-[11px] text-slate-500">
+            <span id="toggleText">Don't have an account?</span>
+            <button onclick="toggleAuth()" class="text-blue-400 font-bold hover:underline ml-1">Register Now</button>
+        </p>
+
+        <p id="msg" class="mt-4 text-[10px] text-red-500 font-mono"></p>
+    </div>
+
+    <script type="module">
+        // KONFIGURASI FIREBASE KAMU
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyB0u3Lnob3ewk9JgjRhzhqBH1NXSwUbt8E", // Gunakan API Key kamu
+            authDomain: "sky-aurora-industries.firebaseapp.com",
+            projectId: "sky-aurora-industries",
+            storageBucket: "sky-aurora-industries.appspot.com",
+            messagingSenderId: "630007984883",
+            appId: "1:630007984883:web:0f760ad82938522d4f7d86"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        let isLogin = true;
+
+        window.toggleAuth = () => {
+            isLogin = !isLogin;
+            document.getElementById('title').innerText = isLogin ? "CLIENT LOGIN" : "CLIENT REGISTER";
+            document.getElementById('authBtn').innerText = isLogin ? "SIGN IN" : "CREATE ACCOUNT";
+            document.getElementById('toggleText').innerText = isLogin ? "Don't have an account?" : "Already have an account?";
+        };
+
+        document.getElementById('authBtn').onclick = async () => {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const msg = document.getElementById('msg');
+
+            try {
+                if (isLogin) {
+                    await signInWithEmailAndPassword(auth, email, password);
+                    alert("Welcome to Sky Aurora!");
+                    window.location.href = "dashboard.html"; // Pastikan file dashboard.html sudah ada
+                } else {
+                    await createUserWithEmailAndPassword(auth, email, password);
+                    alert("Account Created! Now you can Login.");
+                    toggleAuth();
+                }
+            } catch (e) {
+                msg.innerText = "SYSTEM ERROR: " + e.message;
+            }
+        };
+    </script>
+</body>
+</html>
