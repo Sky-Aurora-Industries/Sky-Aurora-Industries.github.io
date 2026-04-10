@@ -3,25 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Client Portal | Sky Aurora</title>
+    <title>Sky Aurora | Client Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body style="background: #0f172a; color: white;" class="h-screen flex items-center justify-center p-6">
-    <div class="bg-slate-900/80 p-8 rounded-[40px] border border-blue-500/30 w-full max-w-sm text-center">
-        <h2 id="title" class="text-2xl font-black text-blue-500 mb-2 uppercase">CLIENT LOGIN</h2>
-        <div class="space-y-4 mt-8">
-            <input type="email" id="email" placeholder="GMAIL" class="w-full p-4 bg-black/40 rounded-2xl border border-slate-700 outline-none text-sm">
-            <input type="password" id="password" placeholder="PASSWORD" class="w-full p-4 bg-black/40 rounded-2xl border border-slate-700 outline-none text-sm">
-        </div>
-        <button id="authBtn" class="w-full bg-blue-600 p-4 rounded-2xl font-black mt-6">SIGN IN</button>
-        <p class="mt-6 text-[11px] text-slate-500"><button onclick="toggleAuth()" id="toggleBtn">Register Now</button></p>
-        <p id="msg" class="mt-4 text-[10px] text-red-500"></p>
+<body class="bg-slate-950 h-screen flex items-center justify-center p-6 text-white">
+
+    <div class="bg-slate-900 p-8 rounded-3xl w-full max-w-sm border border-blue-500/30 text-center">
+        <h2 id="auth-title" class="text-xl font-black text-blue-500 mb-6 uppercase">CLIENT LOGIN</h2>
+        
+        <input type="email" id="email" placeholder="GMAIL / EMAIL" class="w-full p-4 mb-4 bg-black rounded-xl border border-slate-700 outline-none focus:border-blue-500">
+        <input type="password" id="password" placeholder="PASSWORD" class="w-full p-4 mb-6 bg-black rounded-xl border border-slate-700 outline-none focus:border-blue-500">
+        
+        <button id="authBtn" class="w-full bg-blue-600 p-4 rounded-xl font-bold hover:bg-blue-500 transition">SIGN IN</button>
+        
+        <p class="mt-4 text-[10px] text-slate-500">
+            <span id="toggleText">Belum punya akun?</span>
+            <button onclick="toggleMode()" class="text-blue-400 font-bold ml-1 underline">Daftar Sekarang</button>
+        </p>
+        <p id="errorMsg" class="mt-4 text-[10px] text-red-500"></p>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyB0d3Lnob3ewk9JgjRhzhqB1hX5WUbtBxE",
@@ -34,37 +38,39 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-        const db = getFirestore(app);
         let isLogin = true;
 
-        window.toggleAuth = () => {
+        window.toggleMode = () => {
             isLogin = !isLogin;
-            document.getElementById('title').innerText = isLogin ? "CLIENT LOGIN" : "CLIENT REGISTER";
+            document.getElementById('auth-title').innerText = isLogin ? "CLIENT LOGIN" : "CLIENT REGISTER";
             document.getElementById('authBtn').innerText = isLogin ? "SIGN IN" : "CREATE ACCOUNT";
+            document.getElementById('toggleText').innerText = isLogin ? "Belum punya akun?" : "Sudah punya akun?";
         };
 
+        // Memastikan tombol punya aksi setelah halaman dimuat
         document.getElementById('authBtn').onclick = async () => {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            try {
-                let userCredential;
-                if (isLogin) {
-                    userCredential = await signInWithEmailAndPassword(auth, email, password);
-                } else {
-                    userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                }
-                
-                // SIMPAN DATA KE FIRESTORE AGAR MUNCUL DI ADMIN DASHBOARD
-                await setDoc(doc(db, "users", userCredential.user.uid), {
-                    email: email,
-                    online: true,
-                    lastLogin: new Date().toLocaleString('id-ID'),
-                    timestamp: serverTimestamp()
-                });
+            const errorMsg = document.getElementById('errorMsg');
 
-                alert("ACCESS GRANTED");
-                window.location.href = "client-dashboard.html"; 
-            } catch (e) { document.getElementById('msg').innerText = e.message; }
+            if(!email || !password) {
+                errorMsg.innerText = "Error: Email dan Password harus diisi!";
+                return;
+            }
+
+            try {
+                if (isLogin) {
+                    await signInWithEmailAndPassword(auth, email, password);
+                    alert("Login Berhasil!");
+                    window.location.href = "client-dashboard.html";
+                } else {
+                    await createUserWithEmailAndPassword(auth, email, password);
+                    alert("Akun berhasil dibuat!");
+                    toggleMode();
+                }
+            } catch (err) {
+                errorMsg.innerText = "Error: " + err.message;
+            }
         };
     </script>
 </body>
