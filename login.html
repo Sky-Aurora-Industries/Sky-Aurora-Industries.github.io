@@ -2,41 +2,35 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Sky-Aurora | Auth</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sky Aurora | Authentication</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), 
+                        url('https://r.jina.ai/i/9f96898d9e6e4f3a8b3f8e6e4f3a8b3f');
+            background-size: cover; background-position: center;
+        }
+        .glass { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(15px); border: 1px solid rgba(59, 130, 246, 0.3); }
+    </style>
 </head>
-<body class="bg-[#020617] flex items-center justify-center h-screen text-white">
-    <div class="bg-[#0f172a] p-10 rounded-[40px] w-full max-w-sm border border-slate-800 shadow-2xl">
-        <h2 class="text-center text-2xl font-black text-blue-500 tracking-tighter uppercase mb-8 italic">Client Portal</h2>
-        <input type="email" id="e" class="w-full p-4 mb-4 bg-slate-900 rounded-2xl border border-slate-800 text-sm outline-none focus:border-blue-500" placeholder="Email">
-        <input type="password" id="p" class="w-full p-4 mb-6 bg-slate-900 rounded-2xl border border-slate-800 text-sm outline-none focus:border-blue-500" placeholder="Password">
-        <button id="l" class="w-full bg-blue-600 p-4 rounded-2xl font-black uppercase tracking-widest hover:bg-blue-500 mb-3">Login</button>
-        <p id="m" class="mt-6 text-[10px] text-center font-mono uppercase tracking-widest text-slate-500"></p>
-    </div>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+<body class="h-screen flex items-center justify-center p-6 text-white">
+    <div class="glass p-10 rounded-[40px] w-full max-w-sm shadow-2xl">
+        <h1 class="text-center text-2xl font-black italic text-blue-500 uppercase mb-6">Sky Aurora Auth</h1>
         
-        const config = {
-            apiKey: "AIzaSyB0d3Lnob3ewk9JgjRhzhqB1hX5WUbtBxE",
-            authDomain: "sky-aurora-industries.firebaseapp.com",
-            projectId: "sky-aurora-industries",
-            storageBucket: "sky-aurora-industries.firebasestorage.app",
-            messagingSenderId: "630007984883",
-            appId: "1:630007984883:web:0f760ad82938522d4f7d86"
-        };
+        <div class="space-y-4">
+            <input type="email" id="email" placeholder="EMAIL ADDRESS" class="w-full p-4 bg-slate-900/50 rounded-2xl border border-slate-700 outline-none focus:border-blue-500 text-sm">
+            <input type="password" id="password" placeholder="PASSWORD" class="w-full p-4 bg-slate-900/50 rounded-2xl border border-slate-700 outline-none focus:border-blue-500 text-sm">
+            
+            <button id="btnLogin" class="w-full bg-blue-600 p-4 rounded-2xl font-black uppercase tracking-widest hover:bg-blue-500 transition shadow-lg shadow-blue-600/20">Login</button>
+            
+            <div class="flex items-center gap-2 py-2">
+                <div class="h-[1px] bg-slate-700 flex-grow"></div>
+                <span class="text-[10px] text-slate-500 font-bold">OR</span>
+                <div class="h-[1px] bg-slate-700 flex-grow"></div>
+            </div>
 
-        const auth = getAuth(initializeApp(config));
-
-        document.getElementById('l').onclick = async () => {
-            try { 
-                await signInWithEmailAndPassword(auth, document.getElementById('e').value, document.getElementById('p').value); 
-                // INI KUNCINYA: Bikin tanda kalau Juandi sudah masuk
-                localStorage.setItem("akses_juandi", "DIIZINKAN");
-                window.location.href = "dashboard.html"; 
-            } catch(e){ document.getElementById('m').innerText="ERROR: " + e.message; }
-        };
-    </script>
-</body>
-</html>
+            <button id="btnReg" class="w-full border border-blue-500 p-4 rounded-2xl font-black uppercase tracking-widest hover:bg-blue-500/10 transition text-sm">Register Account</button>
+        </div>
+        
+        <p id="status" class="mt-
