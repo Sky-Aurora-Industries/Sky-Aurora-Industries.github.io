@@ -3,99 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sky Aurora | Admin Command Center</title>
+    <title>Admin Command Center</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background: #020617; color: white; font-family: 'Courier New', Courier, monospace; }
-        .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(239, 68, 68, 0.2); }
-        .glow-red { box-shadow: 0 0 20px rgba(239, 68, 68, 0.2); }
+        body { background: #020617; color: white; font-family: monospace; }
+        .glow { box-shadow: 0 0 15px rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.2); }
     </style>
 </head>
-<body class="p-4 md:p-10">
-
-    <div class="flex justify-between items-center mb-10 border-b border-red-500/30 pb-4">
-        <div>
-            <h1 class="text-2xl font-black italic text-red-500 tracking-tighter">COMMAND CENTER</h1>
-            <p class="text-[10px] text-slate-500 tracking-[0.3em]">SECURE ACCESS: DIRECTOR CHRIST</p>
-        </div>
-        <button onclick="window.location.href='index.html'" class="text-[10px] bg-red-900/30 px-4 py-2 rounded-full border border-red-500/50 hover:bg-red-600 transition">LOGOUT</button>
-    </div>
-
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
-        <div class="glass p-6 rounded-3xl glow-red">
-            <h3 class="text-sm font-bold text-red-400 mb-4 flex items-center gap-2">
-                <span>●</span> CLIENT DATABASE
-            </h3>
-            <div class="space-y-4">
-                <div class="bg-black/40 p-3 rounded-xl border border-slate-800">
-                    <p class="text-[10px] text-slate-500">USER_ID: #001</p>
-                    <p class="text-xs font-bold text-blue-400">client_joko@gmail.com</p>
-                    <p class="text-[10px] text-slate-400 mt-1">Status: <span class="text-green-500">Active</span></p>
-                </div>
-                <div class="bg-black/40 p-3 rounded-xl border border-slate-800 opacity-50">
-                    <p class="text-[10px] text-slate-500">USER_ID: #002</p>
-                    <p class="text-xs font-bold text-blue-400">test_user@gmail.com</p>
-                    <p class="text-[10px] text-slate-400 mt-1">Status: <span class="text-red-500">Offline</span></p>
-                </div>
+<body class="p-6">
+    <h1 class="text-red-500 font-black text-xl italic mb-6">● LIVE COMMAND CENTER</h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-slate-900/50 p-6 rounded-3xl glow">
+            <h2 class="text-xs text-red-400 mb-4 font-bold uppercase tracking-widest">Client Monitoring</h2>
+            <div id="client-list" class="space-y-4 text-xs">
+                <p class="text-slate-600 animate-pulse">WAITING FOR INCOMING CONNECTIONS...</p>
             </div>
         </div>
 
-        <div class="glass p-6 rounded-3xl lg:col-span-2 glow-red">
-            <h3 class="text-sm font-bold text-red-400 mb-4 flex items-center gap-2">
-                <span>●</span> LIVE ACTIVITY LOG
-            </h3>
-            <div class="overflow-x-auto text-[11px]">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="text-slate-500 border-b border-slate-800">
-                            <th class="py-2">TIMESTAMP</th>
-                            <th>USER</th>
-                            <th>ACTIVITY</th>
-                            <th>AMOUNT</th>
-                            <th>STATUS</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-slate-300">
-                        <tr class="border-b border-slate-900/50">
-                            <td class="py-3 font-mono">16:34:22</td>
-                            <td>joko@gmail.com</td>
-                            <td class="text-blue-400">TOP UP WALLET</td>
-                            <td class="text-green-400">Rp 500.000</td>
-                            <td><span class="bg-green-900/30 text-green-500 px-2 py-1 rounded">SUCCESS</span></td>
-                        </tr>
-                        <tr class="border-b border-slate-900/50">
-                            <td class="py-3 font-mono">15:10:05</td>
-                            <td>test_user@gmail.com</td>
-                            <td class="text-orange-400">BUY OMNI-TECH KIT</td>
-                            <td class="text-red-400">-Rp 1.200.000</td>
-                            <td><span class="bg-yellow-900/30 text-yellow-500 px-2 py-1 rounded">PENDING</span></td>
-                        </tr>
-                    </tbody>
+        <div class="bg-slate-900/50 p-6 rounded-3xl glow">
+            <h2 class="text-xs text-red-400 mb-4 font-bold uppercase tracking-widest">Activity Log</h2>
+            <div class="overflow-hidden">
+                <table class="w-full text-[10px] text-left">
+                    <tr class="text-slate-500 border-b border-slate-800">
+                        <th class="pb-2">TIME</th>
+                        <th class="pb-2">CLIENT</th>
+                        <th class="pb-2">STATUS</th>
+                    </tr>
+                    <tbody id="log-table"></tbody>
                 </table>
             </div>
         </div>
-
     </div>
 
-    <div class="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-800 text-center">
-            <p class="text-[10px] text-slate-500 uppercase">Total Clients</p>
-            <p class="text-2xl font-black text-red-500">1,204</p>
-        </div>
-        <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-800 text-center">
-            <p class="text-[10px] text-slate-500 uppercase">Revenue (24h)</p>
-            <p class="text-2xl font-black text-green-500">Rp 12.5M</p>
-        </div>
-        <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-800 text-center">
-            <p class="text-[10px] text-slate-500 uppercase">System Load</p>
-            <p class="text-2xl font-black text-blue-500">12%</p>
-        </div>
-        <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-800 text-center">
-            <p class="text-[10px] text-slate-500 uppercase">Active Nodes</p>
-            <p class="text-2xl font-black text-orange-500">52</p>
-        </div>
-    </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
+        const firebaseConfig = {
+            apiKey: "AIzaSyB0u3Lnob3ewk9JgjRhzhqBH1NXSwUbt8E",
+            authDomain: "sky-aurora-industries.firebaseapp.com",
+            projectId: "sky-aurora-industries",
+            storageBucket: "sky-aurora-industries.appspot.com",
+            messagingSenderId: "630007984883",
+            appId: "1:630007984883:web:0f760ad82938522d4f7d86"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // SADAP DATA SECARA REALTIME
+        onSnapshot(query(collection(db, "users"), orderBy("timestamp", "desc")), (snap) => {
+            const list = document.getElementById('client-list');
+            const table = document.getElementById('log-table');
+            list.innerHTML = "";
+            table.innerHTML = "";
+
+            snap.forEach((doc) => {
+                const user = doc.data();
+                // Update Card Monitor
+                list.innerHTML += `
+                    <div class="bg-black/60 p-3 rounded-xl border border-slate-800">
+                        <p class="text-blue-400 font-bold">${user.email}</p>
+                        <p class="text-[9px] text-slate-500">ID: ${doc.id.substring(0,8)} | ${user.lastLogin}</p>
+                    </div>`;
+                // Update Table Log
+                table.innerHTML += `
+                    <tr class="border-b border-slate-900">
+                        <td class="py-2 text-slate-500">${user.lastLogin.split(',')[1]}</td>
+                        <td class="py-2 text-blue-300">${user.email}</td>
+                        <td class="py-2 text-green-500">ONLINE</td>
+                    </tr>`;
+            });
+        });
+    </script>
 </body>
 </html>
