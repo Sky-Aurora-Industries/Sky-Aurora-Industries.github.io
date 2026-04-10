@@ -3,129 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sky Aurora Industries | Official Portal</title>
+    <title>Sky Aurora Industries | Director Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
-            background: linear-gradient(rgba(2, 6, 23, 0.7), rgba(2, 6, 23, 0.9)), 
-                        url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop');
+            /* Menggunakan gambar markas sebagai background utama */
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), 
+                        url('https://r.jina.ai/i/9f96898d9e6e4f3a8b3f8e6e4f3a8b3f'); /* Ganti URL ini dengan link gambar kamu */
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             color: white;
-            font-family: 'Inter', sans-serif;
         }
-        .glass-panel {
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+        .glass-card {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
         }
-        .neon-text {
-            text-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
-        }
-        .glow-border:hover {
-            border-color: #3b82f6;
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
-            transition: 0.3s;
+        .neon-border {
+            border-bottom: 2px solid #3b82f6;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.5);
         }
     </style>
 </head>
-<body class="min-h-screen">
+<body class="min-h-screen font-sans">
 
-    <div class="bg-slate-900/80 border-b border-blue-500/30 p-4 sticky top-0 z-50">
+    <nav class="p-6 bg-slate-900/90 border-b border-blue-500/30 sticky top-0 z-50">
         <div class="container mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center font-bold text-xl italic">SA</div>
-                <h1 class="font-black italic text-xl tracking-tighter neon-text">SKY AURORA INDUSTRIES</h1>
+            <div class="flex items-center gap-4">
+                <div class="p-2 bg-blue-600 rounded-md">
+                    <i class="fas fa-satellite-dish text-xl"></i>
+                </div>
+                <h1 class="text-2xl font-black italic tracking-tighter uppercase">Sky Aurora Industries</h1>
             </div>
-            <div class="text-right">
-                <p class="text-[10px] text-blue-400 font-bold uppercase tracking-widest">Logged in as:</p>
-                <p class="font-bold text-sm">WELCOME, DIRECTOR CHRIST</p>
-            </div>
-        </div>
-    </div>
-
-    <main class="container mx-auto p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
-        <div class="lg:col-span-4 space-y-6">
-            <div class="glass-panel p-6 rounded-[30px] glow-border">
-                <div class="flex items-center gap-4 mb-4">
-                    <i class="fas fa-shield-halved text-3xl text-blue-500"></i>
-                    <h3 class="font-bold uppercase tracking-tighter">Cybersecurity (GnuPG)</h3>
-                </div>
-                <div class="space-y-3">
-                    <div class="flex justify-between items-center bg-slate-800/50 p-3 rounded-xl border border-blue-500/20">
-                        <span class="text-xs text-slate-400">Encryption Status</span>
-                        <span class="text-xs font-bold text-green-400 uppercase">Active & Secure</span>
-                    </div>
-                    <p class="text-[10px] text-slate-400 font-mono">Protocols: AES-256 Bit | RSA-4096</p>
-                </div>
-            </div>
-
-            <div class="glass-panel p-6 rounded-[30px] glow-border">
-                <div class="flex items-center gap-4 mb-6">
-                    <i class="fas fa-wallet text-3xl text-blue-500"></i>
-                    <h3 class="font-bold uppercase tracking-tighter">Financial Center</h3>
-                </div>
-                <div class="grid grid-cols-2 gap-4 mb-4">
-                    <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-700">
-                        <p class="text-[8px] text-slate-500 font-bold uppercase">Gopay Balance</p>
-                        <p class="font-bold">Rp 0.00</p>
-                    </div>
-                    <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-700">
-                        <p class="text-[8px] text-slate-500 font-bold uppercase">ShopeePay</p>
-                        <p class="font-bold">Rp 150.000,00</p>
-                    </div>
-                </div>
-                <button class="w-full bg-blue-600/20 border border-blue-500 py-3 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-blue-600 transition">
-                    Tautkan Nomor Telepon
-                </button>
+            <div class="hidden md:flex gap-6 text-xs font-bold tracking-widest uppercase">
+                <span class="text-blue-400">Welcome, Director Christ</span>
+                <span class="text-slate-400">Status: Secure</span>
             </div>
         </div>
+    </nav>
 
-        <div class="lg:col-span-8 space-y-6">
-            <div class="glass-panel p-8 rounded-[40px] relative overflow-hidden h-full min-h-[400px]">
-                <div class="relative z-10">
-                    <h2 class="text-4xl font-black italic uppercase tracking-tighter mb-2">Global Omni-Tech</h2>
-                    <p class="text-blue-400 text-xs font-bold uppercase tracking-[0.3em] mb-8 italic">Pioneering The Future</p>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="bg-blue-900/20 p-6 rounded-3xl border border-blue-500/30">
-                            <h4 class="font-bold text-sm mb-4 uppercase text-blue-300 italic">Advanced Electronics</h4>
-                            <div class="flex items-center gap-4">
-                                <i class="fas fa-microchip text-4xl text-blue-500"></i>
-                                <div>
-                                    <p class="text-xs font-bold">Neural Processor v3.0</p>
-                                    <p class="text-[10px] text-green-400">STATUS: READY/TRACKED</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bg-blue-900/20 p-6 rounded-3xl border border-blue-500/30">
-                            <h4 class="font-bold text-sm mb-4 uppercase text-blue-300 italic">Global Logistics</h4>
-                            <div class="flex items-center gap-4">
-                                <i class="fas fa-globe-asia text-4xl text-blue-500"></i>
-                                <div>
-                                    <p class="text-xs font-bold">Manado & Manilla Hubs</p>
-                                    <p class="text-[10px] text-slate-400 uppercase tracking-tighter">Active Routes: 12</p>
-                                </div>
-                            </div>
+    <main class="container mx-auto px-6 py-12">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            
+            <div class="space-y-6">
+                <h2 class="text-5xl font-black italic uppercase leading-tight">
+                    Global <span class="text-blue-500">Omni-Tech</span> Leaders
+                </h2>
+                <p class="text-lg text-slate-200 max-w-md">
+                    Infrastruktur digital masa depan dengan keamanan tingkat tinggi GnuPG dan solusi logistik cerdas.
+                </p>
+                <div class="flex gap-4">
+                    <button class="bg-blue-600 hover:bg-blue-700 px-8 py-4 rounded-xl font-black uppercase tracking-widest transition">
+                        Enter Terminal
+                    </button>
+                    <button class="border border-blue-500 px-8 py-4 rounded-xl font-black uppercase tracking-widest hover:bg-blue-500/20 transition">
+                        Logistics Hub
+                    </button>
+                </div>
+            </div>
+
+            <div class="glass-card p-8 rounded-[40px] space-y-8">
+                <div class="flex justify-between items-center neon-border pb-4">
+                    <h3 class="font-bold uppercase tracking-widest text-blue-400">Cybersecurity Status</h3>
+                    <i class="fas fa-user-shield text-2xl"></i>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-slate-800/50 p-6 rounded-2xl border border-slate-700">
+                        <p class="text-[10px] text-slate-400 font-bold uppercase mb-2">Director Access</p>
+                        <p class="font-bold italic">Authenticated: Christ</p>
+                    </div>
+                    <div class="bg-slate-800/50 p-6 rounded-2xl border border-slate-700">
+                        <p class="text-[10px] text-slate-400 font-bold uppercase mb-2">Encryption</p>
+                        <p class="font-bold text-green-400">GnuPG Active</p>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="flex items-center gap-4 p-4 bg-blue-900/20 rounded-xl border border-blue-500/20">
+                        <i class="fas fa-microchip text-blue-500 text-2xl"></i>
+                        <div>
+                            <p class="font-bold text-sm">Neural Processor v3.0</p>
+                            <p class="text-[10px] text-slate-400">Location: Manado HQ Central Server</p>
                         </div>
                     </div>
                 </div>
-                <div class="absolute top-0 right-0 p-10 opacity-20">
-                    <i class="fas fa-building text-[200px] text-blue-500"></i>
-                </div>
             </div>
+
         </div>
     </main>
 
-    <footer class="container mx-auto px-6 pb-10">
-        <div class="bg-black/80 border border-green-500/30 p-4 rounded-2xl font-mono text-[10px] text-green-500">
-            <p>> SYSTEM DIAGNOSTICS: RUNNING...</p>
-            <p>> SERVER LOCATION: MANADO HQ</p>
-            <p>> SECURITY LEVEL: DIRECTOR ACCESS GRANTED</p>
+    <footer class="fixed bottom-0 w-full p-4 bg-black/80 font-mono text-[10px] text-green-500 border-t border-green-900/50">
+        <div class="container mx-auto">
+            > SKY_AURORA_INDUSTRIES_BOOT_SEQUENCE... SUCCESS | SESSION: DIRECTOR_CHRIST_AUTHORIZED
         </div>
     </footer>
 
