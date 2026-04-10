@@ -11,13 +11,12 @@
         <input type="email" id="e" class="w-full p-4 mb-4 bg-slate-900 rounded-2xl border border-slate-800 text-sm outline-none focus:border-blue-500" placeholder="Email">
         <input type="password" id="p" class="w-full p-4 mb-6 bg-slate-900 rounded-2xl border border-slate-800 text-sm outline-none focus:border-blue-500" placeholder="Password">
         <button id="l" class="w-full bg-blue-600 p-4 rounded-2xl font-black uppercase tracking-widest hover:bg-blue-500 mb-3">Login</button>
-        <button id="r" class="w-full border border-slate-700 p-4 rounded-2xl font-bold text-slate-400 hover:bg-slate-800">Register</button>
-        <p id="m" class="mt-6 text-[10px] text-center font-mono uppercase tracking-widest"></p>
+        <p id="m" class="mt-6 text-[10px] text-center font-mono uppercase tracking-widest text-slate-500"></p>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         
         const config = {
             apiKey: "AIzaSyB0d3Lnob3ewk9JgjRhzhqB1hX5WUbtBxE",
@@ -29,24 +28,14 @@
         };
 
         const auth = getAuth(initializeApp(config));
-        const msg = document.getElementById('m');
 
-        // DAFTAR
-        document.getElementById('r').onclick = async () => {
-            try { 
-                await createUserWithEmailAndPassword(auth, document.getElementById('e').value, document.getElementById('p').value); 
-                msg.innerText="Akun Berhasil! Silakan Login"; msg.style.color="#4ade80"; 
-            } catch(e){ msg.innerText=e.message; msg.style.color="#f87171"; }
-        };
-
-        // LOGIN (Memberi Kunci Digital)
         document.getElementById('l').onclick = async () => {
             try { 
                 await signInWithEmailAndPassword(auth, document.getElementById('e').value, document.getElementById('p').value); 
-                // KUNCI DIGITAL: Supaya Dashboard tidak balik ke Login
-                localStorage.setItem("session_sky", "active");
+                // INI KUNCINYA: Bikin tanda kalau Juandi sudah masuk
+                localStorage.setItem("akses_juandi", "DIIZINKAN");
                 window.location.href = "dashboard.html"; 
-            } catch(e){ msg.innerText=e.message; msg.style.color="#f87171"; }
+            } catch(e){ document.getElementById('m').innerText="ERROR: " + e.message; }
         };
     </script>
 </body>
