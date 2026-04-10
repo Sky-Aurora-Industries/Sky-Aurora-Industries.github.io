@@ -23,6 +23,27 @@
         
         <button class="w-full bg-red-600 p-4 rounded-2xl font-black uppercase tracking-widest hover:bg-red-500 transition shadow-lg shadow-red-600/20">AUTHORIZE</button>
         <a href="index.html" class="block mt-6 text-[9px] text-slate-600 hover:text-white transition">← BACK TO SECTOR 0</a>
+        <script>
+        // Menghubungkan fungsi ke tombol AUTHORIZE
+        document.querySelector('button').onclick = function() {
+            // Ambil apa yang kamu ketik di kotak input
+            const inputID = document.querySelector('input[type="text"]').value;
+            const inputKey = document.querySelector('input[type="password"]').value;
+
+            // --- GANTI ID & KEY RAHASIA KAMU DI SINI ---
+            const ADMIN_ID_ASLI = "CHRIST_SKY"; 
+            const ADMIN_KEY_ASLI = "AURORA2026";
+            // -------------------------------------------
+
+            if (inputID === ADMIN_ID_ASLI && inputKey === ADMIN_KEY_ASLI) {
+                alert("ACCESS GRANTED. WELCOME DIRECTOR.");
+                window.location.href = "admin-dashboard.html"; 
+            } else {
+                alert("ACCESS DENIED: WRONG ID OR KEY");
+            }
+        };
+    </script>
+
     </div>
 </body>
 </html>
