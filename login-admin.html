@@ -14,4 +14,34 @@
 
     <div class="glass-admin p-10 rounded-[40px] w-full max-w-sm text-center border-red-500/30">
         <div class="text-red-500 mb-4 animate-pulse">
-            <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24
+            <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+        </div>
+        <h2 class="text-xl font-black italic text-red-500 mb-2 uppercase tracking-widest">ADMIN TERMINAL</h2>
+        <p class="text-[10px] text-slate-500 mb-8 tracking-[0.3em]">SECURE ENCRYPTED ACCESS ONLY</p>
+        
+        <input type="text" id="admin-id" placeholder="ADMIN ID" class="w-full p-4 mb-4 bg-black/50 rounded-2xl border border-red-900/30 outline-none focus:border-red-500 text-red-500 font-mono text-sm">
+        <input type="password" id="admin-key" placeholder="ENCRYPTION KEY" class="w-full p-4 mb-6 bg-black/50 rounded-2xl border border-red-900/30 outline-none focus:border-red-500 text-red-500 font-mono text-sm">
+        
+        <button id="1" class="w-full bg-red-600 p-4 rounded-2xl font-black uppercase tracking-widest hover:bg-red-500 transition shadow-lg shadow-red-600/20">AUTHORIZE</button>
+        <a href="index.html" class="block mt-6 text-[9px] text-slate-600 hover:text-white transition">← BACK TO SECTOR 0</a>
+    </div>
+
+    <script>
+        document.getElementById('1').onclick = function() {
+            const id = document.getElementById('admin-id').value;
+            const key = document.getElementById('admin-key').value;
+
+            // ID & KEY RAHASIA KAMU
+            const MY_ADMIN_ID = "CHRIST_SKY"; 
+            const MY_ADMIN_KEY = "AURORA2026";
+
+            if (id === MY_ADMIN_ID && key === MY_ADMIN_KEY) {
+                alert("ACCESS GRANTED. WELCOME DIRECTOR.");
+                window.location.href = "admin-dashboard.html"; 
+            } else {
+                alert("ACCESS DENIED: WRONG ID OR KEY");
+            }
+        };
+    </script>
+</body>
+</html>
