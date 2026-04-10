@@ -26,6 +26,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyB0d3Lnob3ewk9JgjRhzhqB1hX5WUbtBxE",
@@ -62,6 +63,9 @@
                 if (isLogin) {
                     await signInWithEmailAndPassword(auth, email, password);
                     alert("Login Berhasil!");
+                    // TEMPEL DI BARIS 65
+                   await setDoc(doc(db, "active_sessions", auth.currentUser.uid), { email: email, status: "Online", last_login: new Date().toLocaleString()});
+
                     window.location.href = "client-dashboard.html";
                 } else {
                     await createUserWithEmailAndPassword(auth, email, password);
