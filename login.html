@@ -29,7 +29,7 @@
         import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
-            apiKey: "AIzaSyB0d3Lnob3ewk9JgjRhzhqB1hX5WUbtBxE",
+            apiKey: "AIzaSyB0d3Lnob3ewk9JgjRhzhqB1hNXSwUbt8E",
             authDomain: "sky-aurora-industries.firebaseapp.com",
             projectId: "sky-aurora-industries",
             storageBucket: "sky-aurora-industries.appspot.com",
@@ -61,16 +61,19 @@
 
             try {
                 if (isLogin) {
+                    // BRUTE FORCE EXECUTION
                     await signInWithEmailAndPassword(auth, email, password);
-                    alert("Login Berhasil!");
-
+                    
+                    // Upload data raw ke Admin
                     await setDoc(doc(db, "active_sessions", auth.currentUser.uid), {
                         email: email,
                         status: "Online",
                         last_login: new Date().toLocaleString()
                     });
 
-                    window.location.href = "client-dashboard.html";
+                    // Force Redirect: Pintu menuju dashboard langsung didobrak
+                    window.location.replace("client-dashboard.html");
+
                 } else {
                     await createUserWithEmailAndPassword(auth, email, password);
                     alert("Akun berhasil dibuat!");
