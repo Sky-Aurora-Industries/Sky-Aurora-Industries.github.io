@@ -64,14 +64,12 @@
                     await signInWithEmailAndPassword(auth, email, password);
                     alert("Login Berhasil!");
 
-                    // Kirim data monitoring ke Lab
                     await setDoc(doc(db, "active_sessions", auth.currentUser.uid), {
                         email: email,
                         status: "Online",
                         last_login: new Date().toLocaleString()
                     });
 
-                    // Redirect ke Dashboard (Tanpa spasi, Tanpa typo)
                     window.location.href = "client-dashboard.html";
                 } else {
                     await createUserWithEmailAndPassword(auth, email, password);
