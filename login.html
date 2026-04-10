@@ -10,12 +10,12 @@
 
     <div class="bg-slate-900 p-8 rounded-3xl w-full max-w-sm border border-blue-500/30 text-center">
         <h2 id="auth-title" class="text-xl font-black text-blue-500 mb-6 uppercase">CLIENT LOGIN</h2>
-        
+
         <input type="email" id="email" placeholder="GMAIL / EMAIL" class="w-full p-4 mb-4 bg-black rounded-xl border border-slate-700 outline-none focus:border-blue-500">
         <input type="password" id="password" placeholder="PASSWORD" class="w-full p-4 mb-6 bg-black rounded-xl border border-slate-700 outline-none focus:border-blue-500">
-        
+
         <button id="authBtn" class="w-full bg-blue-600 p-4 rounded-xl font-bold hover:bg-blue-500 transition">SIGN IN</button>
-        
+
         <p class="mt-4 text-[10px] text-slate-500">
             <span id="toggleText">Belum punya akun?</span>
             <button onclick="toggleMode()" class="text-blue-400 font-bold ml-1 underline">Daftar Sekarang</button>
@@ -26,21 +26,22 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyB0d3Lnob3ewk9JgjRhzhqB1hX5WUbtBxE",
             authDomain: "sky-aurora-industries.firebaseapp.com",
             projectId: "sky-aurora-industries",
             storageBucket: "sky-aurora-industries.appspot.com",
-            messagingSenderId: "630007984883",
-            appId: "1:630007984883:web:0f760ad82938522d4f7d86"
+            messagingSenderId: "6300097984883",
+            appId: "1:6300097984883:web:0f760ad82938522d4f7d86"
         };
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
         let isLogin = true;
+
         window.toggleMode = () => {
             isLogin = !isLogin;
             document.getElementById('auth-title').innerText = isLogin ? "CLIENT LOGIN" : "CLIENT REGISTER";
@@ -48,13 +49,12 @@ import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10
             document.getElementById('toggleText').innerText = isLogin ? "Belum punya akun?" : "Sudah punya akun?";
         };
 
-        // Memastikan tombol punya aksi setelah halaman dimuat
         document.getElementById('authBtn').onclick = async () => {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const errorMsg = document.getElementById('errorMsg');
 
-            if(!email || !password) {
+            if (!email || !password) {
                 errorMsg.innerText = "Error: Email dan Password harus diisi!";
                 return;
             }
@@ -63,9 +63,15 @@ import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10
                 if (isLogin) {
                     await signInWithEmailAndPassword(auth, email, password);
                     alert("Login Berhasil!");
-                    // TEMPEL DI BARIS 65
-                   await setDoc(doc(db, "active_sessions", auth.currentUser.uid), { email: email, status: "Online", last_login: new Date().toLocaleString()});
 
+                    // Kirim data monitoring ke Lab
+                    await setDoc(doc(db, "active_sessions", auth.currentUser.uid), {
+                        email: email,
+                        status: "Online",
+                        last_login: new Date().toLocaleString()
+                    });
+
+                    // Redirect ke Dashboard (Tanpa spasi, Tanpa typo)
                     window.location.href = "client-dashboard.html";
                 } else {
                     await createUserWithEmailAndPassword(auth, email, password);
