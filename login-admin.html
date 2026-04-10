@@ -3,79 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Command Center</title>
+    <title>Admin Terminal | Sky Aurora</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background: #020617; color: white; font-family: monospace; }
-        .glow { box-shadow: 0 0 15px rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.2); }
+        body { background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.9)), url('1000099005.png'); background-size: cover; background-position: center; }
+        .glass-admin { background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(15px); border: 1px solid rgba(239, 68, 68, 0.4); }
     </style>
 </head>
-<body class="p-6">
-    <h1 class="text-red-500 font-black text-xl italic mb-6">● LIVE COMMAND CENTER</h1>
-    
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="bg-slate-900/50 p-6 rounded-3xl glow">
-            <h2 class="text-xs text-red-400 mb-4 font-bold uppercase tracking-widest">Client Monitoring</h2>
-            <div id="client-list" class="space-y-4 text-xs">
-                <p class="text-slate-600 animate-pulse">WAITING FOR INCOMING CONNECTIONS...</p>
-            </div>
-        </div>
+<body class="h-screen flex items-center justify-center p-6 text-white">
 
-        <div class="bg-slate-900/50 p-6 rounded-3xl glow">
-            <h2 class="text-xs text-red-400 mb-4 font-bold uppercase tracking-widest">Activity Log</h2>
-            <div class="overflow-hidden">
-                <table class="w-full text-[10px] text-left">
-                    <tr class="text-slate-500 border-b border-slate-800">
-                        <th class="pb-2">TIME</th>
-                        <th class="pb-2">CLIENT</th>
-                        <th class="pb-2">STATUS</th>
-                    </tr>
-                    <tbody id="log-table"></tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyB0u3Lnob3ewk9JgjRhzhqBH1NXSwUbt8E",
-            authDomain: "sky-aurora-industries.firebaseapp.com",
-            projectId: "sky-aurora-industries",
-            storageBucket: "sky-aurora-industries.appspot.com",
-            messagingSenderId: "630007984883",
-            appId: "1:630007984883:web:0f760ad82938522d4f7d86"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        // SADAP DATA SECARA REALTIME
-        onSnapshot(query(collection(db, "users"), orderBy("timestamp", "desc")), (snap) => {
-            const list = document.getElementById('client-list');
-            const table = document.getElementById('log-table');
-            list.innerHTML = "";
-            table.innerHTML = "";
-
-            snap.forEach((doc) => {
-                const user = doc.data();
-                // Update Card Monitor
-                list.innerHTML += `
-                    <div class="bg-black/60 p-3 rounded-xl border border-slate-800">
-                        <p class="text-blue-400 font-bold">${user.email}</p>
-                        <p class="text-[9px] text-slate-500">ID: ${doc.id.substring(0,8)} | ${user.lastLogin}</p>
-                    </div>`;
-                // Update Table Log
-                table.innerHTML += `
-                    <tr class="border-b border-slate-900">
-                        <td class="py-2 text-slate-500">${user.lastLogin.split(',')[1]}</td>
-                        <td class="py-2 text-blue-300">${user.email}</td>
-                        <td class="py-2 text-green-500">ONLINE</td>
-                    </tr>`;
-            });
-        });
-    </script>
-</body>
-</html>
+    <div class="glass-admin p-10 rounded-[40px] w-full max-w-sm text-center border-red-500/30">
+        <div class="text-red-500 mb-4 animate-pulse">
+            <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24
