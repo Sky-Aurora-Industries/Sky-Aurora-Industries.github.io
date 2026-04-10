@@ -41,6 +41,39 @@
     </div>
 </div>
 
+    <div class="fixed bottom-0 left-0 w-full bg-black/80 backdrop-blur-md border-t border-blue-500/30 p-2 z-50">
+    <div class="flex items-center overflow-hidden">
+        <div class="bg-blue-600 px-3 py-1 rounded-lg text-[10px] font-black mr-4 shadow-lg shadow-blue-500/20">
+            MARKET LIVE
+        </div>
+        
+        <marquee behavior="scroll" direction="left" class="text-[11px] font-mono tracking-widest text-slate-300">
+            GOLD PRICE: <span id="gold-price" class="text-green-400 font-bold">LOADING DATA...</span> 
+            <span class="mx-10">|</span> 
+            SYSTEM STATUS: <span class="text-blue-400">OPTIMIZED</span> 
+            <span class="mx-10">|</span> 
+            INFRASTRUCTURE: <span class="text-orange-400">BUILDING MODE ACTIVE</span>
+        </marquee>
     </div>
+</div>
+
+<script>
+    // Fungsi sederhana untuk simulasi harga emas live (Bisa disambungkan ke API nanti)
+    function updateGoldPrice() {
+        const basePrice = 1350000; // Harga dasar
+        const change = Math.floor(Math.random() * 5000) - 2500; // Naik turun acak
+        const currentPrice = basePrice + change;
+        const formattedPrice = "Rp " + currentPrice.toLocaleString('id-ID');
+        
+        const priceElement = document.getElementById('gold-price');
+        priceElement.innerText = formattedPrice + (change >= 0 ? " ▲" : " ▼");
+        priceElement.className = change >= 0 ? "text-green-400 font-bold" : "text-red-400 font-bold";
+    }
+
+    // Update setiap 5 detik
+    setInterval(updateGoldPrice, 5000);
+    updateGoldPrice();
+</script>
+
 </body>
 </html>
