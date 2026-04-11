@@ -5,6 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sky Aurora Industries</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    // 1. Anti-Copy & Anti-Right Click
+    document.addEventListener('contextmenu', e => e.preventDefault());
+
+    // 2. Anti-DevTools (F12, Ctrl+U, Ctrl+Shift+I)
+    document.onkeydown = function(e) {
+        if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) {
+            alert("AURORA LITE: INTERFERENCE_DETECTED.");
+            return false;
+        }
+    };
+
+    // 3. Infinite Debugger (Crash their console)
+    (function() {
+        (function a() {
+            try {
+                (function b(i) {
+                    if (("" + i / i).length !== 1 || i % 20 === 0) {
+                        (function() {}).constructor("debugger")();
+                    } else {
+                        debugger;
+                    }
+                    b(++i);
+                })(0);
+            } catch (e) {
+                setTimeout(a, 5000);
+            }
+        })();
+    })();
+</script>
     <style>
         body {
             background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.6)), 
