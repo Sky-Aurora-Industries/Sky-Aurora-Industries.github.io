@@ -1,73 +1,61 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sky Aurora | Client Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Dashboard - Sky-Aurora Industries</title>
     <style>
-        body { background: #020617; color: white; }
-        .glass { background: rgba(30, 41, 59, 0.5); backdrop-filter: blur(10px); border: 1px solid rgba(59, 130, 246, 0.2); }
+        body { 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Segoe UI', sans-serif; 
+            background-color: #0d1117; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            color: white; 
+        }
+        .container { 
+            border: 2px solid #238636; 
+            padding: 50px; 
+            border-radius: 25px; 
+            text-align: center; 
+            background: #161b22; 
+            box-shadow: 0 0 20px rgba(35, 134, 54, 0.3);
+        }
+        h1 { color: #2ea043; font-size: 35px; margin-bottom: 10px; }
+        p { color: #8b949e; font-size: 18px; }
+        .status-badge { 
+            background: #238636; 
+            padding: 5px 15px; 
+            border-radius: 20px; 
+            font-weight: bold; 
+            font-size: 14px;
+        }
+        .back-btn { 
+            margin-top: 30px; 
+            display: inline-block; 
+            color: #ff7b72; 
+            text-decoration: none; 
+            border: 1px solid #ff7b72; 
+            padding: 10px 20px; 
+            border-radius: 10px; 
+            transition: 0.3s;
+        }
+        .back-btn:hover { background: #ff7b72; color: white; }
     </style>
 </head>
-<body class="p-6">
+<body>
 
-    <div class="flex justify-between items-center mb-8">
-        <div>
-            <h1 class="text-xl font-black text-blue-500 uppercase">CLIENT TERMINAL</h1>
-            <p class="text-[10px] text-slate-400">WELCOME, DIRECTOR'S CLIENT</p>
-        </div>
-        <button id="logoutBtn" class="text-[10px] border border-red-500/50 px-4 py-2 rounded-full hover:bg-red-600 transition">LOGOUT</button>
+    <div class="container">
+        <span class="status-badge">AUTHORIZED ACCESS</span>
+        <h1>WELCOME, CLIENT</h1>
+        <p>Sistem Sky-Aurora Industries telah sinkron.</p>
+        <p>Status Server: <span style="color: #2ea043;">ACTIVE</span></p>
+        
+        <a href="login.html" class="back-btn">Logout dari Sistem</a>
     </div>
 
-    <div class="glass p-6 rounded-3xl mb-6">
-        <p class="text-[10px] text-slate-500 uppercase">Current Balance</p>
-        <h2 class="text-3xl font-black text-blue-400">Rp 0</h2>
-        <button class="mt-4 bg-blue-600 w-full py-3 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-blue-500">Top Up Wallet</button>
-    </div>
-
-    <div class="glass p-6 rounded-3xl">
-        <h3 class="text-xs font-bold text-slate-300 mb-4">ACCOUNT DETAILS</h3>
-        <div class="space-y-3 text-xs text-slate-400">
-            <p>Email: <span id="user-email" class="text-white font-mono">Loading...</span></p>
-            <p>Status: <span class="text-green-500 font-bold">SECURE_ACTIVE</span></p>
-        </div>
-    </div>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyB0d3Lnob3ewk9JgjRhzhqB1hX5WUbtBxE",
-            authDomain: "sky-aurora-industries.firebaseapp.com",
-            projectId: "sky-aurora-industries",
-            storageBucket: "sky-aurora-industries.appspot.com",
-            messagingSenderId: "630007984883",
-            appId: "1:630007984883:web:0f760ad82938522d4f7d86"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-
-        // CEK STATUS LOGIN DENGAN SABAR
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                // Jika user ada, tampilkan emailnya
-                document.getElementById('user-email').innerText = user.email;
-            } else {
-                // HANYA lempar ke login jika beneran tidak ada user
-                console.log("No user detected, redirecting...");
-                window.location.href = "login.html";
-            }
-        });
-
-        // FUNGSI TOMBOL LOGOUT
-        document.getElementById('logoutBtn').onclick = async () => {
-            await signOut(auth);
-            alert("Sesi Berakhir. Kembali ke Terminal Utama.");
-            window.location.href = "index.html";
-        };
-    </script>
 </body>
 </html>
