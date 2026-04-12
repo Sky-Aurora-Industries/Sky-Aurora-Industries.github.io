@@ -3,59 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Sky-Aurora Industries</title>
+    <title>Client Login - Sky-Aurora Industries</title>
     <style>
-        body { 
-            margin: 0; 
-            padding: 0; 
-            font-family: 'Segoe UI', sans-serif; 
-            background-color: #0d1117; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            height: 100vh; 
-            color: white; 
-        }
-        .container { 
-            border: 2px solid #238636; 
-            padding: 50px; 
-            border-radius: 25px; 
-            text-align: center; 
-            background: #161b22; 
-            box-shadow: 0 0 20px rgba(35, 134, 54, 0.3);
-        }
-        h1 { color: #2ea043; font-size: 35px; margin-bottom: 10px; }
-        p { color: #8b949e; font-size: 18px; }
-        .status-badge { 
-            background: #238636; 
-            padding: 5px 15px; 
-            border-radius: 20px; 
-            font-weight: bold; 
-            font-size: 14px;
-        }
-        .back-btn { 
-            margin-top: 30px; 
-            display: inline-block; 
-            color: #ff7b72; 
-            text-decoration: none; 
-            border: 1px solid #ff7b72; 
-            padding: 10px 20px; 
-            border-radius: 10px; 
-            transition: 0.3s;
-        }
-        .back-btn:hover { background: #ff7b72; color: white; }
+        body { margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; background-color: #0d1117; display: flex; justify-content: center; align-items: center; height: 100vh; color: white; }
+        .login-card { background-color: #161b22; padding: 40px; border-radius: 20px; border: 1px solid #30363d; width: 350px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h2 { color: #58a6ff; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; }
+        .input-group { margin-bottom: 20px; }
+        input { width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #30363d; background: #0d1117; color: white; font-size: 16px; box-sizing: border-box; }
+        input:focus { outline: none; border-color: #58a6ff; }
+        .sign-in-btn { width: 100%; padding: 15px; border: none; border-radius: 10px; background: #238636; color: white; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; text-transform: uppercase; }
+        .sign-in-btn:hover { background: #2ea043; transform: translateY(-2px); }
+        .sign-in-btn:active { transform: scale(0.98); }
+        .footer { margin-top: 25px; font-size: 14px; color: #8b949e; }
+        .footer a { color: #58a6ff; text-decoration: none; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <span class="status-badge">AUTHORIZED ACCESS</span>
-        <h1>WELCOME, CLIENT</h1>
-        <p>Sistem Sky-Aurora Industries telah sinkron.</p>
-        <p>Status Server: <span style="color: #2ea043;">ACTIVE</span></p>
-        
-        <a href="login.html" class="back-btn">Logout dari Sistem</a>
+    <div class="login-card">
+        <h2>Client Login</h2>
+        <form id="loginForm">
+            <div class="input-group">
+                <input type="email" id="email" placeholder="juandirahelia@gmail.com" required>
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Password" required>
+            </div>
+            
+            <button type="submit" class="sign-in-btn">Sign In</button>
+        </form>
+
+        <div class="footer">
+            Belum punya akun? <a href="#">Daftar Sekarang</a>
+        </div>
     </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault(); 
+            
+            const btn = document.querySelector('.sign-in-btn');
+            btn.innerText = "AUTHENTICATING...";
+            btn.style.background = "#1f6feb";
+
+            setTimeout(() => {
+                // MENUJU HALAMAN DASHBOARD
+                window.location.href = "dashboard.html"; 
+            }, 800); 
+        });
+    </script>
 
 </body>
 </html>
