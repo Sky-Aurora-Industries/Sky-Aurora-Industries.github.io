@@ -3,19 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AURORA LITE | INTERNAL ADMIN ACCESS</title>
+    <title>AURORA LITE | ADMIN AUTH</title>
     <style>
         :root {
-            --bg-color: #0a0a0a;
-            --primary-accent: #00ff41; /* Green Matrix/Hacker style */
-            --text-color: #e0e0e0;
-            --input-bg: #1a1a1a;
+            --bg-color: #0d1117; /* Darker, premium blue-black */
+            --card-bg: #161b22;
+            --primary-accent: #238636; /* Premium admin green, not matrix green */
+            --primary-hover: #2ea043;
+            --input-bg-focus: #1f242b;
+            --text-color: #c9d1d9;
+            --text-muted: #8b949e;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            font-family: 'Courier New', Courier, monospace;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
             display: flex;
             justify-content: center;
             align-items: center;
@@ -24,21 +27,48 @@
             overflow: hidden;
         }
 
-        .login-box {
-            background: rgba(20, 20, 20, 0.9);
+        .login-card {
+            background-color: var(--card-bg);
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            width: 100%;
+            max-width: 380px;
             padding: 40px;
-            border: 1px solid var(--primary-accent);
-            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
-            border-radius: 5px;
-            width: 350px;
             text-align: center;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
         }
 
-        h2 {
-            color: var(--primary-accent);
-            text-transform: uppercase;
-            letter-spacing: 5px;
+        .admin-header {
             margin-bottom: 30px;
+            position: relative;
+        }
+
+        /* Icon Gembok Minimalis di Atas */
+        .lock-icon {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 48px;
+            height: 48px;
+            border: 2px solid #30363d;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            color: var(--text-muted);
+        }
+
+        .admin-header h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0;
+            letter-spacing: 2px;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        .admin-header p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin: 5px 0 0;
         }
 
         .input-group {
@@ -46,95 +76,113 @@
             text-align: left;
         }
 
-        .input-group label {
-            display: block;
-            font-size: 12px;
-            margin-bottom: 5px;
-            color: var(--primary-accent);
-        }
-
         input {
             width: 100%;
-            padding: 10px;
-            background: var(--input-bg);
-            border: 1px solid #333;
-            color: var(--primary-accent);
+            padding: 12px;
+            background-color: transparent;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 14px;
             outline: none;
             box-sizing: border-box;
+            transition: 0.3s;
         }
 
         input:focus {
+            background-color: var(--input-bg-focus);
             border-color: var(--primary-accent);
+            box-shadow: 0 0 0 3px rgba(35, 134, 54, 0.3);
         }
 
         button {
             width: 100%;
             padding: 12px;
-            background: transparent;
-            border: 1px solid var(--primary-accent);
-            color: var(--primary-accent);
-            font-weight: bold;
+            background-color: var(--primary-accent);
+            border: 1px solid rgba(240,246,252,0.1);
+            color: #fff;
+            font-weight: 600;
+            border-radius: 6px;
             cursor: pointer;
             transition: 0.3s;
+            font-size: 14px;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
         }
 
         button:hover {
-            background: var(--primary-accent);
-            color: black;
-            box-shadow: 0 0 15px var(--primary-accent);
+            background-color: var(--primary-hover);
         }
 
-        .status {
-            margin-top: 20px;
-            font-size: 10px;
-            color: #555;
+        .status-footer {
+            margin-top: 25px;
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 1px;
         }
 
-        .blink {
-            animation: blinker 1s linear infinite;
+        .status-online {
+            color: #2ea043;
+            font-weight: bold;
         }
 
-        @keyframes blinker {
-            50% { opacity: 0; }
+        /* SVG Lock Icon */
+        .lock-svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
         }
     </style>
 </head>
 <body>
 
-<div class="login-box">
-    <h2>SKY ACCESS</h2>
-    <div class="input-group">
-        <label>ROOT_IDENTIFIER</label>
-        <input type="text" id="username" placeholder="Enter Identity...">
+<div class="login-card">
+    <div class="admin-header">
+        <div class="lock-icon">
+            <svg class="lock-svg" viewBox="0 0 24 24"><path d="M12,17A2,2,0,0,0,14,15A2,2,0,0,0,12,13A2,2,0,0,0,10,15A2,2,0,0,0,12,17M18,8H17V6A5,5,0,0,0,7,6V8H6A2,2,0,0,0,4,10V20A2,2,0,0,0,6,22H18A2,2,0,0,0,20,20V10A2,2,0,0,0,18,8M9,6A3,3,0,0,1,15,6V8H9Z"></path></svg>
+        </div>
+        <h2>ADMIN ROOT</h2>
+        <p>SECURE NODE ACCESS ONLY</p>
     </div>
+
     <div class="input-group">
-        <label>PRIVATE_KEY</label>
-        <input type="password" id="password" placeholder="••••••••">
+        <input type="text" id="username" placeholder="Identifier" autocomplete="off">
     </div>
-    <button onclick="login()">EXECUTE LOGIN</button>
+
+    <div class="input-group">
+        <input type="password" id="password" placeholder="Key">
+    </div>
+
+    <button onclick="login()">EXECUTE</button>
     
-    <div class="status">
-        SYSTEM: <span class="blink">ENCRYPTED_AND_READY</span><br>
-        AURORA_LITE: ONLINE
+    <div class="status-footer">
+        AURORA LITE V3.0 | SYSTEM Status: <span class="status-online">SECURED</span>
     </div>
 </div>
 
 <script>
     function login() {
-        const user = document.getElementById('username').value;
+        const user = document.getElementById('Admin ID').value;
         const pass = document.getElementById('password').value;
 
-        // Logika simpel buat lo, Sky. Ganti sesuai keinginan lo.
+        // Login lo, Sky.
         if(user === "Christ" && pass === "Talaud2026") {
             alert("ACCESS GRANTED. Welcome back, King.");
-            // Redirect ke halaman dashboard utama lo di sini
-            // window.location.href = "dashboard-main.html";
+            window.location.href = "admin-dashboard.html"; 
         } else {
             alert("[ERROR: EXTERNAL_INTERFERENCE_DETECTED_AND_DELETED]");
+            // Reset input
+            document.getElementById('username').value = "";
+            document.getElementById('password').value = "";
         }
     }
+
+    // Enter to login
+    document.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            login();
+        }
+    });
 </script>
 
 </body>
