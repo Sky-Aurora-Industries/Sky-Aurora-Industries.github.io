@@ -1,52 +1,141 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Client Login - Sky-Aurora Industries</title>
+    <title>AURORA LITE | INTERNAL ADMIN ACCESS</title>
     <style>
-        body { margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; background-color: #0d1117; display: flex; justify-content: center; align-items: center; height: 100vh; color: white; }
-        .login-card { background-color: #161b22; padding: 40px; border-radius: 20px; border: 1px solid #30363d; width: 350px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        h2 { color: #58a6ff; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; }
-        .input-group { margin-bottom: 20px; }
-        input { width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #30363d; background: #0d1117; color: white; font-size: 16px; box-sizing: border-box; }
-        input:focus { outline: none; border-color: #58a6ff; }
-        .sign-in-btn { width: 100%; padding: 15px; border: none; border-radius: 10px; background: #238636; color: white; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; text-transform: uppercase; }
-        .sign-in-btn:hover { background: #2ea043; transform: translateY(-2px); }
-        .footer { margin-top: 25px; font-size: 14px; color: #8b949e; }
-        .footer a { color: #58a6ff; text-decoration: none; }
+        :root {
+            --bg-color: #0a0a0a;
+            --primary-accent: #00ff41; /* Green Matrix/Hacker style */
+            --text-color: #e0e0e0;
+            --input-bg: #1a1a1a;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .login-box {
+            background: rgba(20, 20, 20, 0.9);
+            padding: 40px;
+            border: 1px solid var(--primary-accent);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+            border-radius: 5px;
+            width: 350px;
+            text-align: center;
+        }
+
+        h2 {
+            color: var(--primary-accent);
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 12px;
+            margin-bottom: 5px;
+            color: var(--primary-accent);
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            background: var(--input-bg);
+            border: 1px solid #333;
+            color: var(--primary-accent);
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            border-color: var(--primary-accent);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            border: 1px solid var(--primary-accent);
+            color: var(--primary-accent);
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        button:hover {
+            background: var(--primary-accent);
+            color: black;
+            box-shadow: 0 0 15px var(--primary-accent);
+        }
+
+        .status {
+            margin-top: 20px;
+            font-size: 10px;
+            color: #555;
+        }
+
+        .blink {
+            animation: blinker 1s linear infinite;
+        }
+
+        @keyframes blinker {
+            50% { opacity: 0; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="login-card">
-        <h2>Client Login</h2>
-        <form id="loginForm">
-            <div class="input-group">
-                <input type="email" placeholder="Email" required>
-            </div>
-            <div class="input-group">
-                <input type="password" placeholder="Password" required>
-            </div>
-            <button type="submit" class="sign-in-btn">Sign In</button>
-        </form>
-        <div class="footer">
-            Belum punya akun? <a href="#">Daftar Sekarang</a>
-        </div>
+<div class="login-box">
+    <h2>SKY ACCESS</h2>
+    <div class="input-group">
+        <label>ROOT_IDENTIFIER</label>
+        <input type="text" id="username" placeholder="Enter Identity...">
     </div>
+    <div class="input-group">
+        <label>PRIVATE_KEY</label>
+        <input type="password" id="password" placeholder="••••••••">
+    </div>
+    <button onclick="login()">EXECUTE LOGIN</button>
+    
+    <div class="status">
+        SYSTEM: <span class="blink">ENCRYPTED_AND_READY</span><br>
+        AURORA_LITE: ONLINE
+    </div>
+</div>
 
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault(); 
-            const btn = document.querySelector('.sign-in-btn');
-            btn.innerText = "AUTHENTICATING...";
-            
-            setTimeout(() => {
-                // ARAHKAN KE NAMA FILE YANG BARU
-                window.location.href = "client-dashboard.html"; 
-            }, 800); 
-        });
-    </script>
+<script>
+    function login() {
+        const user = document.getElementById('username').value;
+        const pass = document.getElementById('password').value;
+
+        // Logika simpel buat lo, Sky. Ganti sesuai keinginan lo.
+        if(user === "Christ" && pass === "Talaud2026") {
+            alert("ACCESS GRANTED. Welcome back, King.");
+            // Redirect ke halaman dashboard utama lo di sini
+            // window.location.href = "dashboard-main.html";
+        } else {
+            alert("[ERROR: EXTERNAL_INTERFERENCE_DETECTED_AND_DELETED]");
+        }
+    }
+</script>
 
 </body>
 </html>
