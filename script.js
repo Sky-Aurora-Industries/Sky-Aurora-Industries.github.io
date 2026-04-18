@@ -1,29 +1,30 @@
-// 1. Fungsi untuk tombol LOGIN
-const loginBtn = document.querySelector('button.bg-blue-600');
+// 1. Fungsi Tombol Login di Navbar
+const loginBtn = document.getElementById('loginBtnNav');
 if (loginBtn) {
     loginBtn.onclick = function() {
         window.location.href = 'login.html';
     };
 }
 
-// 2. Fungsi untuk tombol BROWSE CATALOG
-const browseBtn = document.querySelector('a[href="#catalog"]');
-if (browseBtn) {
-    browseBtn.onclick = function(e) {
-        e.preventDefault();
-        document.getElementById('catalog').scrollIntoView({ behavior: 'smooth' });
+// 2. Fungsi Tombol Learn More (Arahkan ke WA)
+const learnMore = document.getElementById('learnMoreBtn');
+if (learnMore) {
+    learnMore.onclick = function() {
+        window.location.href = 'https://wa.me/yournumber'; // Ganti yournumber dengan nomor HP lo
     };
 }
 
-// 3. Fungsi untuk tombol ADD TO CART
+// 3. Fungsi Tambah ke Keranjang
 function addToCart(productName) {
     alert("Success! " + productName + " has been added to your Sky-Aurora cart.");
 }
 
-// 4. Fungsi untuk tombol LEARN MORE (Arahkan ke WhatsApp atau About)
-const learnMoreBtn = document.querySelectorAll('button')[1]; // Tombol kedua di hero section
-if (learnMoreBtn) {
-    learnMoreBtn.onclick = function() {
-        window.location.href = 'https://wa.me/yournumber'; // Ganti dengan nomor lo
-    };
-}
+// 4. Smooth Scroll untuk Browse Catalog
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
+});
