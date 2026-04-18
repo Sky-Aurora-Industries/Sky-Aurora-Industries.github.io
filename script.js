@@ -1,19 +1,17 @@
-// ISI EMAIL TUJUAN DI SINI
+// GANTI EMAIL INI JADI EMAIL KAMU
 const emailTujuan = "juandirahelia@gmail.com"; 
 
-// 1. Fungsi Klik Add to Cart langsung ke Gmail
 function orderViaEmail(namaProduk, harga) {
-    const subjek = `Order Request: ${namaProduk}`;
-    const bodyPesan = `Halo Sky-Aurora Industries,\n\nSaya ingin memesan produk berikut:\n\nProduk: ${namaProduk}\nHarga: $${harga}\n\nMohon informasi metode pembayaran dan estimasi pengiriman.\n\nTerima kasih.`;
+    const subjek = `Pemesanan: ${namaProduk}`;
+    const bodyPesan = `Halo Sky-Aurora Industries,\n\nSaya ingin memesan:\n\nProduk: ${namaProduk}\nHarga: ${harga}\n\nMohon informasi pembayarannya.\n\nTerima kasih.`;
     
-    // Format mailto: untuk membuka aplikasi email
     const mailtoUrl = `mailto:${emailTujuan}?subject=${encodeURIComponent(subjek)}&body=${encodeURIComponent(bodyPesan)}`;
     
-    alert("Opening Gmail for secure order submission...");
+    alert("Membuka Email untuk pemesanan aman...");
     window.location.href = mailtoUrl;
 }
 
-// 2. Fungsi Tombol Login
+// Tombol Login
 const loginBtn = document.getElementById('loginBtnNav');
 if (loginBtn) {
     loginBtn.onclick = function() {
@@ -21,18 +19,7 @@ if (loginBtn) {
     };
 }
 
-// 3. Fungsi Learn More & Contact (Ke Email juga)
-const emailLinks = ['learnMoreBtn', 'contactNav'];
-emailLinks.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) {
-        el.onclick = function() {
-            window.location.href = `mailto:${emailTujuan}?subject=Consultation Request&body=Hi Sky-Aurora, I need to discuss your tech solutions.`;
-        };
-    }
-});
-
-// 4. Smooth Scroll
+// Smooth Scroll
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
