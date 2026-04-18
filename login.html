@@ -3,55 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Client Login - Sky-Aurora Industries</title>
-    <style>
-        body { margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; background-color: #0d1117; display: flex; justify-content: center; align-items: center; height: 100vh; color: white; }
-        .login-card { background-color: #161b22; padding: 40px; border-radius: 20px; border: 1px solid #30363d; width: 350px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        h2 { color: #58a6ff; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; }
-        .input-group { margin-bottom: 20px; }
-        input { width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #30363d; background: #0d1117; color: white; font-size: 16px; box-sizing: border-box; }
-        input:focus { outline: none; border-color: #58a6ff; }
-        .sign-in-btn { width: 100%; padding: 15px; border: none; border-radius: 10px; background: #238636; color: white; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; text-transform: uppercase; }
-        .sign-in-btn:hover { background: #2ea043; transform: translateY(-2px); }
-        .sign-in-btn:active { transform: scale(0.98); }
-        .footer { margin-top: 25px; font-size: 14px; color: #8b949e; }
-        .footer a { color: #58a6ff; text-decoration: none; }
-    </style>
+    <title>Login | Sky-Aurora Global</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-
-    <div class="login-card">
-        <h2>Client Login</h2>
-        <form id="loginForm">
-            <div class="input-group">
-                <input type="email" id="email" placeholder="juandirahelia@gmail.com" required>
-            </div>
-            <div class="input-group">
-                <input type="password" id="password" placeholder="Password" required>
-            </div>
-            
-            <button type="submit" class="sign-in-btn">Sign In</button>
-        </form>
-
-        <div class="footer">
-            Belum punya akun? <a href="#">Daftar Sekarang</a>
+<body class="bg-slate-50 flex items-center justify-center h-screen">
+    <div class="bg-white p-10 rounded-3xl shadow-xl w-full max-w-md border border-gray-100">
+        <div class="text-center mb-10">
+            <h1 class="text-2xl font-black text-blue-600 tracking-tighter">SKY-AURORA</h1>
+            <p class="text-gray-400 text-sm mt-2">Welcome back, please login to your account.</p>
         </div>
+        
+        <form class="space-y-6">
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Email Address</label>
+                <input type="email" class="w-full border-b-2 border-gray-100 focus:border-blue-600 outline-none py-2 transition-all" placeholder="name@company.com">
+            </div>
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Password</label>
+                <input type="password" class="w-full border-b-2 border-gray-100 focus:border-blue-600 outline-none py-2 transition-all" placeholder="••••••••">
+            </div>
+            <button type="button" onclick="alert('System secure: Access restricted.')" class="w-full bg-blue-600 text-white font-bold py-4 rounded-2xl shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all">SIGN IN</button>
+        </form>
+        
+        <p class="text-center text-gray-400 text-xs mt-8">
+            Don't have an account? <a href="signup.html" class="text-blue-600 font-bold">Request Access</a>
+        </p>
     </div>
-
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault(); 
-            
-            const btn = document.querySelector('.sign-in-btn');
-            btn.innerText = "AUTHENTICATING...";
-            btn.style.background = "#1f6feb";
-
-            setTimeout(() => {
-                // MENUJU HALAMAN DASHBOARD
-                window.location.href = "dashboard.html"; 
-            }, 800); 
-        });
-    </script>
-
 </body>
 </html>
