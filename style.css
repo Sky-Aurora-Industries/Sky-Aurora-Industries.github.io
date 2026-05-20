@@ -1,36 +1,33 @@
-/* Styling Global - Dark Mode & Modern Lab Vibe */
 body {
     margin: 0;
     padding: 0;
     background: radial-gradient(circle at center, #1a1a2e, #0f0f1a);
     color: #ffffff;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', sans-serif;
     min-height: 100vh;
 }
 
 nav {
     display: flex;
     justify-content: space-between;
-    padding: 20px 50px;
-    background: rgba(255, 255, 255, 0.05);
+    padding: 30px 50px;
+    background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.logo { font-weight: bold; font-size: 1.5rem; color: #00d4ff; }
-
 header {
     text-align: center;
-    padding: 80px 20px;
+    padding: 100px 20px;
 }
 
-header h1 { font-size: 3rem; margin-bottom: 10px; }
+header h1 { font-size: 3.5rem; }
 header h1 span { color: #00d4ff; }
 
 .product-card {
     width: 300px;
-    margin: 40px auto;
-    background: rgba(255, 255, 255, 0.03);
+    margin: 50px auto;
+    background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 20px;
     padding: 30px;
@@ -41,7 +38,7 @@ header h1 span { color: #00d4ff; }
 .product-card:hover {
     transform: translateY(-10px);
     border-color: #00d4ff;
-    box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
 }
 
 button {
@@ -53,5 +50,4 @@ button {
     cursor: pointer;
     font-weight: bold;
     text-transform: uppercase;
-    margin-top: 15px;
 }
