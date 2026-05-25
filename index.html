@@ -1,41 +1,107 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sky-Aurora Industries | Global Tech Infrastructure</title>
-    <link rel="stylesheet" href="style.css">
+    <title>SKY AURORA INDUSTRIES | PRIVATE MARKETPLACE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body { font-family: 'Urbanist', sans-serif; background-color: #000; color: #fff; }
+        .aurora-border { border: 1px solid #deff9a; }
+        .aurora-text { color: #deff9a; }
+        .aurora-bg { background-color: #deff9a; }
+        .glow { box-shadow: 0 0 15px rgba(222, 255, 154, 0.3); }
+        .grid-bg { background-image: radial-gradient(#1a1a1a 1px, transparent 1px); background-size: 30px 30px; }
+    </style>
 </head>
-<body>
-    <nav>
-        <div class="logo">SKY-AURORA INDUSTRIES</div>
-        <ul>
-            <li><a href="#">STORE</a></li>
-            <li><a href="#">CONTACT</a></li>
-            <li><a href="login.html" class="btn-login">LOGIN</a></li>
-        </ul>
+<body class="grid-bg min-height-screen">
+
+    <nav class="p-6 border-b border-zinc-800 flex justify-between items-center backdrop-blur-md sticky top-0 z-50">
+        <div class="text-2xl font-800 tracking-tighter">SKY AURORA <span class="aurora-text">INDUSTRIES</span></div>
+        <div class="flex gap-6 items-center">
+            <button onclick="toggleModal('upload-modal')" class="aurora-border px-4 py-2 text-sm hover:aurora-bg hover:text-black transition-all">TITIP BARANG</button>
+            <div id="status-lab" class="text-[10px] uppercase tracking-widest opacity-50">Status: Aurora_Lite_Active</div>
+        </div>
     </nav>
 
-    <header>
-        <h1>Next-Gen Tech for <span>Global Sales.</span></h1>
-        <p>Premium digital infrastructure delivered directly to your inbox.</p>
-        <button id="cta-button">BROWSE CATALOG</button>
+    <header class="py-20 px-6 text-center">
+        <h1 class="text-6xl font-800 mb-4 uppercase tracking-tighter">Pasar Digital <span class="aurora-text">Tanpa Batas</span></h1>
+        <p class="text-zinc-400 max-w-2xl mx-auto">Platform pihak ketiga paling aman di lab pribadi. Masukkan barang lu, kita buat laku kilat. Fee 10% flat, no sensor, no bullshit.</p>
     </header>
 
-    <section id="features">
-        <div class="product-card">
-            <h3>Aurora-Secure Cloud</h3>
-            <p>Proteksi cloud kelas dunia untuk data sensitif.</p>
-            <p class="price">Rp 35.000.000</p>
-            <button class="buy-now">BELI SEKARANG</button>
+    <main class="max-w-7xl mx-auto px-6 pb-20">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-xl font-semibold uppercase tracking-widest">Available Assets</h2>
+            <div class="h-[1px] flex-grow mx-6 bg-zinc-800"></div>
         </div>
-    </section>
+        
+        <div id="product-container" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            <div class="animate-pulse text-zinc-600 text-sm">Menghubungkan ke Lab Database...</div>
+        </div>
+    </main>
 
-    <script src="portal.js"></script>
+    <div id="upload-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm hidden z-[100] flex items-center justify-center p-6">
+        <div class="bg-zinc-900 aurora-border p-8 w-full max-w-md relative">
+            <button onclick="toggleModal('upload-modal')" class="absolute top-4 right-4 text-zinc-500 hover:text-white">✕</button>
+            <h3 class="text-2xl font-bold mb-6 aurora-text">UPLOAD ASSET</h3>
+            <form id="upload-form" class="space-y-4">
+                <div>
+                    <label class="text-[10px] uppercase text-zinc-500">Nama Barang</label>
+                    <input type="text" id="p-name" class="w-full bg-black border border-zinc-800 p-3 mt-1 focus:border-[#deff9a] outline-none">
+                </div>
+                <div>
+                    <label class="text-[10px] uppercase text-zinc-500">Harga (IDR)</label>
+                    <input type="number" id="p-price" class="w-full bg-black border border-zinc-800 p-3 mt-1 focus:border-[#deff9a] outline-none">
+                </div>
+                <div>
+                    <label class="text-[10px] uppercase text-zinc-500">Link Gambar</label>
+                    <input type="text" id="p-img" placeholder="https://..." class="w-full bg-black border border-zinc-800 p-3 mt-1 focus:border-[#deff9a] outline-none">
+                </div>
+                <button type="submit" class="w-full aurora-bg text-black font-bold py-4 hover:opacity-80 transition-all">LAUNCH LISTING</button>
+            </form>
+        </div>
+    </div>
 
-    <footer style="text-align: center; padding: 40px; color: #666; font-size: 0.8rem;">
-        <p>&copy; 2026 Sky-Aurora Industries. All Rights Reserved.</p>
-        <p>Secured by Aurora-Lite Encryption Protocol.</p>
-    </footer>
+    <script>
+        function toggleModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.toggle('hidden');
+        }
+
+        // Contoh Data Dummy buat ngetes tampilan sebelum lu kasih API Supabase
+        const dummyData = [
+            { id: 1, name: "Neural Link v2", price: "2.500.000", img: "https://via.placeholder.com/400x400/1a1a1a/deff9a?text=Asset+1" },
+            { id: 2, name: "Encrypted Drive", price: "800.000", img: "https://via.placeholder.com/400x400/1a1a1a/deff9a?text=Asset+2" }
+        ];
+
+        function renderProducts(data) {
+            const container = document.getElementById('product-container');
+            container.innerHTML = data.map(p => `
+                <div class="group border border-zinc-800 p-4 hover:border-[#deff9a] transition-all">
+                    <div class="aspect-square bg-zinc-900 mb-4 overflow-hidden">
+                        <img src="${p.img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform">
+                    </div>
+                    <div class="text-[10px] uppercase text-zinc-500 mb-1">Vendor Verified</div>
+                    <h4 class="font-bold mb-2">${p.name}</h4>
+                    <div class="flex justify-between items-center">
+                        <span class="aurora-text font-bold">Rp${p.price}</span>
+                        <button class="bg-white text-black text-[10px] px-3 py-1 font-bold">BUY</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Jalankan render awal
+        renderProducts(dummyData);
+
+        // Form handler
+        document.getElementById('upload-form').onsubmit = (e) => {
+            e.preventDefault();
+            alert('Protocol Lab: Data diterima. Menunggu approval admin Sky.');
+            toggleModal('upload-modal');
+        };
+    </script>
 </body>
 </html>
