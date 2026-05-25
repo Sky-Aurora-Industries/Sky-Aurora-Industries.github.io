@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INVOICE | SKY AURORA INDUSTRIES</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #000; color: #fff; font-family: 'Urbanist', sans-serif; }
+        .aurora-border { border: 1px solid #deff9a; }
+        .aurora-text { color: #deff9a; }
+    </style>
+</head>
+<body class="p-10">
+    <div class="max-w-xl mx-auto aurora-border p-8 bg-zinc-900">
+        <h1 class="text-3xl font-bold aurora-text mb-6">INVOICE PEMBAYARAN</h1>
+        <div id="invoice-items" class="space-y-2 mb-6 border-b border-zinc-800 pb-4"></div>
+        <div class="flex justify-between text-xl font-bold">
+            <span>TOTAL</span>
+            <span id="total-price" class="aurora-text">Rp0</span>
+        </div>
+        <button onclick="window.print()" class="w-full mt-8 bg-white text-black font-bold py-3 hover:bg-[#deff9a] transition-all">CETAK INVOICE</button>
+    </div>
+
+    <script>
+        const cart = JSON.parse(localStorage.getItem('aurora_cart')) || [];
+        const container = document.getElementById('invoice-items');
+        let total = 0;
+
+        cart.forEach(item => {
+            total += parseInt(item.price);
+            container.innerHTML += `<div class="flex justify-between"><span>${item.name}</span><span>Rp${parseInt(item.price).toLocaleString()}</span></div>`;
+        });
+        document.getElementById('total-price').innerText = `Rp${total.toLocaleString()}`;
+    </script>
+</body>
+</html>
+
