@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SKY AURORA INDUSTRIES | PUSAT PERBELANJAAN ONLINE</title>
+    <title>SKY AURORA INDUSTRIES | PRIVATE MARKETPLACE</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
@@ -28,20 +28,13 @@
         <div id="product-container" class="grid grid-cols-1 md:grid-cols-4 gap-8"></div>
     </main>
 
-    <div id="cart-modal" class="fixed inset-0 bg-black/90 hidden z-[100] flex items-center justify-center p-6">
-        <div class="bg-zinc-900 aurora-border p-8 w-full max-w-sm">
-            <h3 class="text-xl font-bold mb-4">KERANJANG</h3>
-            <div id="cart-items" class="mb-4"></div>
-            <button onclick="toggleModal('cart-modal')" class="w-full aurora-border py-2">TUTUP</button>
-        </div>
-    </div>
-
     <div id="upload-modal" class="fixed inset-0 bg-black/90 hidden z-[100] flex items-center justify-center p-6">
         <div class="bg-zinc-900 aurora-border p-8 w-full max-w-md">
-            <h3 class="text-xl font-bold mb-4 aurora-text">UPLOAD BARANG</h3>
+            <h3 class="text-xl font-bold mb-4 aurora-text">UPLOAD BARANG & FOTO</h3>
             <form id="upload-form" class="space-y-4">
-                <input type="text" id="p-name" placeholder="Nama Barang" required class="w-full bg-black border border-zinc-800 p-3 outline-none focus:border-[#deff9a]">
-                <input type="number" id="p-price" placeholder="Harga" required class="w-full bg-black border border-zinc-800 p-3 outline-none focus:border-[#deff9a]">
+                <input type="text" id="p-name" placeholder="Nama Barang" required class="w-full bg-black border border-zinc-800 p-3 outline-none">
+                <input type="number" id="p-price" placeholder="Harga" required class="w-full bg-black border border-zinc-800 p-3 outline-none">
+                <input type="file" id="p-image" accept="image/*" required class="w-full text-sm text-zinc-500 file:bg-zinc-800 file:border-none file:text-white file:px-4 file:py-2">
                 <button type="submit" class="w-full aurora-bg text-black font-bold py-4">LAUNCH LISTING</button>
             </form>
         </div>
@@ -49,63 +42,38 @@
 
     <script>
         let products = JSON.parse(localStorage.getItem('aurora_assets')) || [];
-        let cart = JSON.parse(localStorage.getItem('aurora_cart')) || [];
-        const blacklist = ['bunuh', 'bom', 'narkoba', 'ilegal'];
-
+        
         function toggleModal(id) { document.getElementById(id).classList.toggle('hidden'); }
-
-        function deleteProduct(index) {
-            products.splice(index, 1);
-            localStorage.setItem('aurora_assets', JSON.stringify(products));
-            render();
-        }
 
         document.getElementById('upload-form').onsubmit = (e) => {
             e.preventDefault();
-            const name = document.getElementById('p-name').value;
-            if (blacklist.some(word => name.toLowerCase().includes(word))) {
-                alert('ERROR: Unsur terlarang terdeteksi. Listing ditolak.');
-                return;
-            }
-            products.push({ name, price: document.getElementById('p-price').value });
-            localStorage.setItem('aurora_assets', JSON.stringify(products));
-            render();
-            toggleModal('upload-modal');
-            document.getElementById('upload-form').reset();
+            const file = document.getElementById('p-image').files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(event) {
+                const newProduct = {
+                    name: document.getElementById('p-name').value,
+                    price: document.getElementById('p-price').value,
+                    image: event.target.result // Data foto dalam bentuk Base64
+                };
+                products.push(newProduct);
+                localStorage.setItem('aurora_assets', JSON.stringify(products));
+                location.reload();
+            };
+            reader.readAsDataURL(file);
         };
-
-        function addToCart(index) {
-            cart.push(products[index]);
-            localStorage.setItem('aurora_cart', JSON.stringify(cart));
-            updateCartUI();
-        }
-
-        function updateCartUI() {
-            document.getElementById('cart-count').innerText = cart.length;
-            document.getElementById('cart-items').innerHTML = cart.map((p, i) => `
-                <div class="flex justify-between mb-2 text-sm">
-                    <span>${p.name}</span>
-                    <button onclick="cart.splice(${i},1); localStorage.setItem('aurora_cart', JSON.stringify(cart)); updateCartUI()" class="text-red-500">✕</button>
-                </div>
-            `).join('');
-        }
 
         function render() {
             document.getElementById('product-container').innerHTML = products.map((p, i) => `
                 <div class="border border-zinc-800 p-4 hover:border-[#deff9a] transition-all">
-                    <div class="aspect-square bg-zinc-900 mb-4 flex items-center justify-center text-zinc-700">IMAGE_READY</div>
+                    <img src="${p.image}" class="w-full aspect-square object-cover mb-4 bg-zinc-900">
                     <h4 class="font-bold mb-1">${p.name}</h4>
                     <p class="aurora-text font-bold mb-4">Rp${parseInt(p.price).toLocaleString()}</p>
-                    <div class="flex gap-2">
-                        <button onclick="addToCart(${i})" class="w-full aurora-border py-2 text-[10px]">ADD TO CART</button>
-                        <button onclick="deleteProduct(${i})" class="bg-red-900/20 text-red-500 px-3 py-2 text-[10px]">DEL</button>
-                    </div>
+                    <button onclick="products.splice(${i},1); localStorage.setItem('aurora_assets', JSON.stringify(products)); render()" class="w-full bg-red-900/20 text-red-500 py-2 text-[10px]">DELETE</button>
                 </div>
             `).join('');
         }
-
         render();
-        updateCartUI();
     </script>
 </body>
 </html>
