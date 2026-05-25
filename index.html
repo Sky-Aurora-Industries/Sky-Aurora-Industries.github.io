@@ -17,7 +17,7 @@
 <body class="grid-bg min-h-screen">
 
     <nav class="p-6 border-b border-zinc-800 flex justify-between items-center backdrop-blur-md sticky top-0 z-50 bg-black/80">
-        <div class="text-2xl font-800 tracking-tighter">SKY AURORA <span class="aurora-text">INDUSTRIES</span></div>
+        <div class="text-2xl font-800 tracking-tighter cursor-pointer" onclick="location.reload()">SKY AURORA <span class="aurora-text">INDUSTRIES</span></div>
         <div class="hidden md:flex gap-8 text-sm uppercase tracking-widest text-zinc-400">
             <a href="#vendor" class="hover:text-[#deff9a] transition-all">Pusat Vendor</a>
             <a href="#katalog" class="hover:text-[#deff9a] transition-all">Katalog Fisik</a>
@@ -47,44 +47,50 @@
             <button onclick="toggleModal('upload-modal')" class="absolute top-4 right-4 text-zinc-500 hover:text-white">✕</button>
             <h3 class="text-2xl font-bold mb-6 aurora-text">UPLOAD ASSET FISIK</h3>
             <form id="upload-form" class="space-y-4">
-                <div><label class="text-[10px] uppercase text-zinc-500">Nama Barang</label><input type="text" id="p-name" class="w-full bg-black border border-zinc-800 p-3 mt-1 outline-none focus:border-[#deff9a]"></div>
-                <div><label class="text-[10px] uppercase text-zinc-500">Harga (IDR)</label><input type="number" id="p-price" class="w-full bg-black border border-zinc-800 p-3 mt-1 outline-none focus:border-[#deff9a]"></div>
-                <div><label class="text-[10px] uppercase text-zinc-500">Deskripsi Singkat</label><textarea id="p-desc" class="w-full bg-black border border-zinc-800 p-3 mt-1 outline-none focus:border-[#deff9a]"></textarea></div>
+                <div><label class="text-[10px] uppercase text-zinc-500">Nama Barang</label><input type="text" id="p-name" required class="w-full bg-black border border-zinc-800 p-3 mt-1 outline-none focus:border-[#deff9a]"></div>
+                <div><label class="text-[10px] uppercase text-zinc-500">Harga (IDR)</label><input type="number" id="p-price" required class="w-full bg-black border border-zinc-800 p-3 mt-1 outline-none focus:border-[#deff9a]"></div>
                 <button type="submit" class="w-full aurora-bg text-black font-bold py-4 hover:opacity-80 transition-all">LAUNCH LISTING</button>
             </form>
         </div>
     </div>
 
     <script>
-        function toggleModal(id) { document.getElementById(id).classList.toggle('hidden'); }
-        
-        const products = [
-            { name: "Motor Custom v1", price: "15.000.000", img: "https://via.placeholder.com/400/1a1a1a/deff9a?text=Motor+Fisik" },
-            { name: "Furniture Industrial", price: "3.500.000", img: "https://via.placeholder.com/400/1a1a1a/deff9a?text=Furniture" },
-            { name: "Jam Tangan Mekanik", price: "2.100.000", img: "https://via.placeholder.com/400/1a1a1a/deff9a?text=Jam+Tangan" }
+        // Logika Database Lokal
+        let products = JSON.parse(localStorage.getItem('aurora_assets')) || [
+            { name: "Motor Custom v1", price: "15.000.000" },
+            { name: "Furniture Industrial", price: "3.500.000" }
         ];
+
+        function toggleModal(id) { document.getElementById(id).classList.toggle('hidden'); }
 
         function render() {
             const container = document.getElementById('product-container');
             container.innerHTML = products.map(p => `
                 <div class="border border-zinc-800 p-4 hover:border-[#deff9a] transition-all">
-                    <div class="aspect-square bg-zinc-900 mb-4 overflow-hidden"><img src="${p.img}" class="w-full h-full object-cover"></div>
+                    <div class="aspect-square bg-zinc-900 mb-4 flex items-center justify-center text-zinc-700">IMAGE_READY</div>
                     <h4 class="font-bold mb-1">${p.name}</h4>
                     <div class="flex justify-between items-center mt-4">
-                        <span class="aurora-text font-bold">Rp${p.price}</span>
+                        <span class="aurora-text font-bold">Rp${parseInt(p.price).toLocaleString('id-ID')}</span>
                         <button class="bg-white text-black text-[10px] px-3 py-1 font-bold">DETAIL</button>
                     </div>
                 </div>
             `).join('');
         }
-        
-        render();
 
         document.getElementById('upload-form').onsubmit = (e) => {
             e.preventDefault();
-            alert('Listing Diterima. Lab Protokol: Data diproses ke antrean...');
+            const newProduct = {
+                name: document.getElementById('p-name').value,
+                price: document.getElementById('p-price').value
+            };
+            products.push(newProduct);
+            localStorage.setItem('aurora_assets', JSON.stringify(products));
+            render();
             toggleModal('upload-modal');
+            document.getElementById('upload-form').reset();
         };
+
+        render();
     </script>
 </body>
 </html>
