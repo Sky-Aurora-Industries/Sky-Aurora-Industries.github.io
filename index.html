@@ -18,79 +18,81 @@
 
     <nav class="p-6 border-b border-zinc-800 flex justify-between items-center backdrop-blur-md sticky top-0 z-50 bg-black/80">
         <div class="text-2xl font-800 tracking-tighter cursor-pointer" onclick="location.reload()">SKY AURORA <span class="aurora-text">INDUSTRIES</span></div>
-        <div class="hidden md:flex gap-8 text-sm uppercase tracking-widest text-zinc-400">
-            <a href="#vendor" class="hover:text-[#deff9a] transition-all">Pusat Vendor</a>
-            <a href="#katalog" class="hover:text-[#deff9a] transition-all">Katalog Fisik</a>
-            <a href="#" class="hover:text-[#deff9a] transition-all">Statistik</a>
-        </div>
         <div class="flex gap-4 items-center">
+            <button onclick="toggleModal('cart-modal')" class="text-zinc-400 hover:text-[#deff9a] transition-all">KERANJANG (<span id="cart-count">0</span>)</button>
             <button onclick="toggleModal('upload-modal')" class="aurora-border px-4 py-2 text-sm hover:aurora-bg hover:text-black transition-all font-bold">TITIP BARANG</button>
         </div>
     </nav>
 
-    <header class="py-20 px-6 text-center">
-        <h1 class="text-6xl font-800 mb-4 uppercase tracking-tighter">Pasar Digital <span class="aurora-text">Tanpa Batas</span></h1>
-        <p class="text-zinc-400 max-w-2xl mx-auto">Platform pihak ketiga. Masukkan barang fisik pengusaha, kita buat laku kilat. Fee 10% flat.</p>
-    </header>
-
-    <main id="katalog" class="max-w-7xl mx-auto px-6 pb-20">
-        <div class="flex justify-between items-center mb-8">
-            <h2 class="text-xl font-semibold uppercase tracking-widest">Available Assets</h2>
-            <div class="h-[1px] flex-grow mx-6 bg-zinc-800"></div>
-        </div>
-        <div id="product-container" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
-            </div>
+    <main class="max-w-7xl mx-auto px-6 py-20">
+        <div id="product-container" class="grid grid-cols-1 md:grid-cols-4 gap-8"></div>
     </main>
 
-    <div id="upload-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm hidden z-[100] flex items-center justify-center p-6">
-        <div class="bg-zinc-900 aurora-border p-8 w-full max-w-md relative">
-            <button onclick="toggleModal('upload-modal')" class="absolute top-4 right-4 text-zinc-500 hover:text-white">✕</button>
-            <h3 class="text-2xl font-bold mb-6 aurora-text">UPLOAD ASSET FISIK</h3>
+    <div id="cart-modal" class="fixed inset-0 bg-black/90 hidden z-[100] flex items-center justify-center p-6">
+        <div class="bg-zinc-900 aurora-border p-8 w-full max-w-sm">
+            <h3 class="text-xl font-bold mb-4">KERANJANG BELANJA</h3>
+            <div id="cart-items" class="mb-4"></div>
+            <button onclick="toggleModal('cart-modal')" class="w-full aurora-border py-2">TUTUP</button>
+        </div>
+    </div>
+
+    <div id="upload-modal" class="fixed inset-0 bg-black/90 hidden z-[100] flex items-center justify-center p-6">
+        <div class="bg-zinc-900 aurora-border p-8 w-full max-w-md">
             <form id="upload-form" class="space-y-4">
-                <div><label class="text-[10px] uppercase text-zinc-500">Nama Barang</label><input type="text" id="p-name" required class="w-full bg-black border border-zinc-800 p-3 mt-1 outline-none focus:border-[#deff9a]"></div>
-                <div><label class="text-[10px] uppercase text-zinc-500">Harga (IDR)</label><input type="number" id="p-price" required class="w-full bg-black border border-zinc-800 p-3 mt-1 outline-none focus:border-[#deff9a]"></div>
-                <button type="submit" class="w-full aurora-bg text-black font-bold py-4 hover:opacity-80 transition-all">LAUNCH LISTING</button>
+                <input type="text" id="p-name" placeholder="Nama Barang" required class="w-full bg-black border border-zinc-800 p-3 outline-none focus:border-[#deff9a]">
+                <input type="number" id="p-price" placeholder="Harga" required class="w-full bg-black border border-zinc-800 p-3 outline-none focus:border-[#deff9a]">
+                <button type="submit" class="w-full aurora-bg text-black font-bold py-4">LAUNCH LISTING</button>
             </form>
         </div>
     </div>
 
     <script>
-        // Logika Database Lokal
-        let products = JSON.parse(localStorage.getItem('aurora_assets')) || [
-            { name: "Motor Custom v1", price: "15.000.000" },
-            { name: "Furniture Industrial", price: "3.500.000" }
-        ];
+        let products = JSON.parse(localStorage.getItem('aurora_assets')) || [];
+        let cart = JSON.parse(localStorage.getItem('aurora_cart')) || [];
+        
+        // Filter Kata Sampah/Jahat
+        const blacklist = ['bunuh', 'bom', 'narkoba', 'ilegal'];
 
         function toggleModal(id) { document.getElementById(id).classList.toggle('hidden'); }
 
+        document.getElementById('upload-form').onsubmit = (e) => {
+            e.preventDefault();
+            const name = document.getElementById('p-name').value;
+            
+            // Logika Moderasi
+            if (blacklist.some(word => name.toLowerCase().includes(word))) {
+                alert('ERROR: Unsur terlarang terdeteksi. Listing ditolak.');
+                return;
+            }
+            
+            products.push({ name, price: document.getElementById('p-price').value });
+            localStorage.setItem('aurora_assets', JSON.stringify(products));
+            location.reload();
+        };
+
+        function addToCart(index) {
+            cart.push(products[index]);
+            localStorage.setItem('aurora_cart', JSON.stringify(cart));
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            document.getElementById('cart-count').innerText = cart.length;
+            document.getElementById('cart-items').innerHTML = cart.map(p => `<p>${p.name} - Rp${p.price}</p>`).join('');
+        }
+
         function render() {
-            const container = document.getElementById('product-container');
-            container.innerHTML = products.map(p => `
-                <div class="border border-zinc-800 p-4 hover:border-[#deff9a] transition-all">
-                    <div class="aspect-square bg-zinc-900 mb-4 flex items-center justify-center text-zinc-700">IMAGE_READY</div>
-                    <h4 class="font-bold mb-1">${p.name}</h4>
-                    <div class="flex justify-between items-center mt-4">
-                        <span class="aurora-text font-bold">Rp${parseInt(p.price).toLocaleString('id-ID')}</span>
-                        <button class="bg-white text-black text-[10px] px-3 py-1 font-bold">DETAIL</button>
-                    </div>
+            document.getElementById('product-container').innerHTML = products.map((p, i) => `
+                <div class="border border-zinc-800 p-4">
+                    <h4 class="font-bold">${p.name}</h4>
+                    <p class="aurora-text">Rp${parseInt(p.price).toLocaleString()}</p>
+                    <button onclick="addToCart(${i})" class="mt-4 w-full aurora-border py-2 text-xs">ADD TO CART</button>
                 </div>
             `).join('');
         }
 
-        document.getElementById('upload-form').onsubmit = (e) => {
-            e.preventDefault();
-            const newProduct = {
-                name: document.getElementById('p-name').value,
-                price: document.getElementById('p-price').value
-            };
-            products.push(newProduct);
-            localStorage.setItem('aurora_assets', JSON.stringify(products));
-            render();
-            toggleModal('upload-modal');
-            document.getElementById('upload-form').reset();
-        };
-
         render();
+        updateCartUI();
     </script>
 </body>
 </html>
