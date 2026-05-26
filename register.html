@@ -17,7 +17,8 @@
         <h1 class="text-xl font-bold mb-6 aurora-text">PENDAFTARAN PENJUAL</h1>
         <form id="reg-form" class="space-y-4">
             <input type="text" id="toko" placeholder="Nama Toko" required class="w-full bg-black border border-zinc-800 p-3 text-white outline-none">
-            <input type="text" id="daerah" placeholder="Asal Daerah" required class="w-full bg-black border border-zinc-800 p-3 text-white outline-none">
+            <input type="text" id="daerah" placeholder="Asal Daerah (Kota/Kab)" required class="w-full bg-black border border-zinc-800 p-3 text-white outline-none">
+            <input type="text" id="desa" placeholder="Asal Desa/Kecamatan" required class="w-full bg-black border border-zinc-800 p-3 text-white outline-none">
             <input type="text" id="barang" placeholder="Nama Produk Utama" required class="w-full bg-black border border-zinc-800 p-3 text-white outline-none">
             <textarea id="deskripsi" placeholder="Deskripsi Singkat Produk" required class="w-full bg-black border border-zinc-800 p-3 text-white outline-none h-24"></textarea>
             
@@ -30,17 +31,17 @@
         function kirimPendaftaran() {
             const toko = document.getElementById('toko').value;
             const daerah = document.getElementById('daerah').value;
+            const desa = document.getElementById('desa').value;
             const barang = document.getElementById('barang').value;
             const deskripsi = document.getElementById('deskripsi').value;
 
-            if(!toko || !daerah || !barang) { alert('Lengkapi semua data, Bos!'); return; }
+            if(!toko || !daerah || !desa || !barang) { alert('Lengkapi semua data, Bos!'); return; }
 
             const subject = "PENDAFTARAN PENJUAL BARU - " + toko;
-            const body = `Data Penjual Baru:\n\nNama Toko: ${toko}\nAsal Daerah/ Asal Desa: ${daerah}\nProduk: ${barang}\nDeskripsi: ${deskripsi}`;
+            const body = `Data Penjual Baru:\n\nNama Toko: ${toko}\nAsal Daerah: ${daerah}\nDesa/Kec: ${desa}\nProduk: ${barang}\nDeskripsi: ${deskripsi}`;
             
             window.location.href = `mailto:auroragroup.center@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
         }
     </script>
 </body>
 </html>
-
