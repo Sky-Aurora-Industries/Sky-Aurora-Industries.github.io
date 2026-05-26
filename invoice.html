@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INVOICE & DATA PEMBELI | SKY AURORA INDUSTRIES</title>
+    <title>INVOICE & PEMBAYARAN | SKY AURORA INDUSTRIES</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background-color: #000; color: #fff; font-family: 'Urbanist', sans-serif; }
@@ -21,6 +21,15 @@
         <div class="space-y-4 mb-6">
             <input type="text" id="cust-name" placeholder="Nama Lengkap" class="w-full bg-black border border-zinc-700 p-3 outline-none">
             <textarea id="cust-address" placeholder="Alamat Lengkap Pengiriman" class="w-full bg-black border border-zinc-700 p-3 outline-none h-24"></textarea>
+        </div>
+
+        <div class="mt-6 mb-6 p-4 bg-zinc-800 rounded">
+            <h3 class="text-sm font-bold text-[#deff9a] mb-2">PILIH METODE PEMBAYARAN:</h3>
+            <div class="space-y-2 text-sm">
+                <label class="flex items-center"><input type="radio" name="payment" value="GoPay" class="mr-2"> GoPay: 081242050638</label>
+                <label class="flex items-center"><input type="radio" name="payment" value="DANA" class="mr-2"> DANA: 081242050638</label>
+                <label class="flex items-center"><input type="radio" name="payment" value="Cash" class="mr-2"> Cash (Bayar di tempat)</label>
+            </div>
         </div>
 
         <div class="flex justify-between text-xl font-bold mb-6">
@@ -49,12 +58,14 @@
         function kirimKeEmail() {
             const nama = document.getElementById('cust-name').value;
             const alamat = document.getElementById('cust-address').value;
+            const pembayaran = document.querySelector('input[name="payment"]:checked');
             const emailTujuan = "auroragroup.center@gmail.com"; 
             
             if(!nama || !alamat) { alert("Tolong isi Nama dan Alamat dulu, Bos!"); return; }
+            if(!pembayaran) { alert("Pilih metode pembayaran dulu, Bos!"); return; }
 
             const subject = "ORDER BARU - " + nama;
-            const body = `Halo Admin Industries,\n\nAda pesanan baru masuk!\n\nDATA PEMBELI:\nNama: ${nama}\nAlamat: ${alamat}\n\nDETAIL PESANAN:\n${orderDetails}\nTOTAL: Rp${total.toLocaleString()}\n\nMohon segera diproses.`;
+            const body = `Halo Admin Industries,\n\nAda pesanan baru masuk!\n\nDATA PEMBELI:\nNama: ${nama}\nAlamat: ${alamat}\nPembayaran: ${pembayaran.value}\n\nDETAIL PESANAN:\n${orderDetails}\nTOTAL: Rp${total.toLocaleString()}\n\nMohon segera diproses.`;
             
             window.location.href = `mailto:${emailTujuan}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
         }
