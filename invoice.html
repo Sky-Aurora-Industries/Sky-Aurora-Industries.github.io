@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INVOICE | SKY AURORA INDUSTRIES</title>
+    <title>INVOICE & DATA PEMBELI | SKY AURORA INDUSTRIES</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background-color: #000; color: #fff; font-family: 'Urbanist', sans-serif; }
@@ -14,23 +14,21 @@
 </head>
 <body class="p-10">
     <div class="max-w-xl mx-auto aurora-border p-8 bg-zinc-900">
-        <h1 class="text-3xl font-bold aurora-text mb-6">INVOICE PEMBAYARAN</h1>
+        <h1 class="text-3xl font-bold aurora-text mb-6">DATA PEMESANAN</h1>
         
         <div id="invoice-items" class="space-y-2 mb-6 border-b border-zinc-800 pb-4"></div>
         
-        <div class="bg-zinc-800 p-4 mb-6 text-sm">
-            <p class="font-bold text-[#deff9a]">INSTRUKSI PEMBAYARAN:</p>
-            <p>1. Transfer total ke GoPay: 081242050638 (Admin Aurora centers)</p>
-            <p>2. Klik tombol "KIRIM PESANAN KE Gmail" di bawah.</p>
-            <p>3. Lampirkan bukti transfer di email tersebut.</p>
+        <div class="space-y-4 mb-6">
+            <input type="text" id="cust-name" placeholder="Nama Lengkap" class="w-full bg-black border border-zinc-700 p-3 outline-none">
+            <textarea id="cust-address" placeholder="Alamat Lengkap Pengiriman" class="w-full bg-black border border-zinc-700 p-3 outline-none h-24"></textarea>
         </div>
 
-        <div class="flex justify-between text-xl font-bold">
+        <div class="flex justify-between text-xl font-bold mb-6">
             <span>TOTAL</span>
             <span id="total-price" class="aurora-text">Rp0</span>
         </div>
 
-        <button onclick="kirimKeEmail()" class="w-full mt-8 aurora-bg text-black font-bold py-3 hover:opacity-90 transition-all">KIRIM PESANAN KE Gmail</button>
+        <button onclick="kirimKeEmail()" class="w-full aurora-bg text-black font-bold py-3 hover:opacity-90 transition-all">KIRIM PESANAN KE GMAIL</button>
         <button onclick="window.history.back()" class="w-full mt-2 border border-zinc-700 py-3 hover:bg-zinc-800 transition-all">KEMBALI</button>
     </div>
 
@@ -43,16 +41,20 @@
         cart.forEach(item => {
             total += parseInt(item.price);
             orderDetails += `- ${item.name}: Rp${parseInt(item.price).toLocaleString()}\n`;
-            container.innerHTML += `<div class="flex justify-between"><span>${item.name}</span><span>Rp${parseInt(item.price).toLocaleString()}</span></div>`;
         });
         
         document.getElementById('total-price').innerText = `Rp${total.toLocaleString()}`;
+        container.innerHTML = orderDetails.replace(/\n/g, '<br>');
 
         function kirimKeEmail() {
-            // GANTI EMAIL DI BAWAH INI DENGAN EMAIL PERUSAHAAN LU
+            const nama = document.getElementById('cust-name').value;
+            const alamat = document.getElementById('cust-address').value;
             const emailTujuan = "auroragroup.center@gmail.com"; 
-            const subject = "ORDER BARU - Admin Industries";
-            const body = `Halo Admin Industries,\n\nAda pesanan baru masuk nih!\n\nDetail Pesanan:\n${orderDetails}\nTOTAL: Rp${total.toLocaleString()}\n\nMohon segera diproses. Terlampir bukti transfer menyusul.\n\nTerima kasih.`;
+            
+            if(!nama || !alamat) { alert("Tolong isi Nama dan Alamat dulu, Bos!"); return; }
+
+            const subject = "ORDER BARU - " + nama;
+            const body = `Halo Admin Industries,\n\nAda pesanan baru masuk!\n\nDATA PEMBELI:\nNama: ${nama}\nAlamat: ${alamat}\n\nDETAIL PESANAN:\n${orderDetails}\nTOTAL: Rp${total.toLocaleString()}\n\nMohon segera diproses.`;
             
             window.location.href = `mailto:${emailTujuan}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
         }
